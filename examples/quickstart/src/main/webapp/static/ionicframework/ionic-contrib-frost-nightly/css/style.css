@@ -1,0 +1,21 @@
+.dark-overlay {
+  background-color: #222 !important;
+  opacity: 0.8;
+}
+.dark-item {
+  background-color: transparent !important;
+  color: #fff !important;
+  border-color: #444 !important;
+}
+.close-icon:before {
+  font-size: 40px !important;
+}
+.bar-clear {
+  background: none;
+}
+.overlay-spacer {
+  height: 100px;
+}
+.content-flush {
+  top: 0px !important;
+}

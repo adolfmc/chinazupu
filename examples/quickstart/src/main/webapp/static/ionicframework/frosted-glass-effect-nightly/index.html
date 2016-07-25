@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Frosted Glass Effect: Nightly</title>
+    
+    
+    
+    
+        <link rel="stylesheet" href="css/style.css">
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <html ng-app="starter">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <title>Ionic Frosted Glass</title>
+
+    <link href="css/ionic.css" rel="stylesheet">
+    <link href="css/ionic.contrib.frostedGlass.css" rel="stylesheet">
+
+    <script src="js/ionic.bundle.js"></script> 
+<script src="js/minErr.js"></script>
+<script src="js/angular.js"></script>
+    <script src="js/ionic.contrib.frostedGlass.js"></script>
+	
+
+  </head>
+  <body>
+
+    <ion-pane ng-controller="PageCtrl">
+      
+      <ion-header-bar frosted-bar class="bar-frosted">
+        <h1 class="title">Blurred!</h1>
+      </ion-header-bar>
+      
+      <ion-content class="padding" start-y="120">
+        <ol class="messages">
+          <li ng-repeat="message in messages" ng-bind-html="message.content"></li>
+        </ol>
+      </ion-content>
+      <ion-footer-bar class="bar-frosted">
+        <button class="button button-clear button-positive" ng-click="add()">Add Message</button>
+      </ion-footer-bar>
+    </ion-pane>
+
+  </body>
+</html>
+    
+        <script src="js/index.js"></script>
+
+    
+    
+    
+  </body>
+</html>

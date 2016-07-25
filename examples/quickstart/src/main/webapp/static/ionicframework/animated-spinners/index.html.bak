@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Animated Spinners </title>
+    
+    
+    
+    
+        <link rel="stylesheet" href="css/style.css">
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <html ng-app="ionicApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+
+    <title>Ionic Pull to Refresh</title>
+
+    <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
+    <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+
+  </head>
+  <body ng-controller="MyCtrl">
+    <ion-content scroll="false" class="has-header">
+      <p>
+        <ion-spinner icon="android"></ion-spinner>
+        <ion-spinner icon="ios"></ion-spinner>
+        <ion-spinner icon="ios-small"></ion-spinner>
+        <ion-spinner icon="bubbles" class="spinner-balanced"></ion-spinner>
+        <ion-spinner icon="circles" class="spinner-energized"></ion-spinner>
+      </p>
+
+      <p>
+        <ion-spinner icon="crescent" class="spinner-royal"></ion-spinner>
+
+        <ion-spinner icon="dots" class="spinner-dark"></ion-spinner>
+        <ion-spinner icon="lines" class="spinner-calm"></ion-spinner>
+        <ion-spinner icon="ripple" class="spinner-assertive"></ion-spinner>
+        <ion-spinner icon="spiral"></ion-spinner>
+      </p>
+
+
+    </ion-content>
+
+  </body>
+</html>
+    
+        <script src="js/index.js"></script>
+
+    
+    
+    
+  </body>
+</html>

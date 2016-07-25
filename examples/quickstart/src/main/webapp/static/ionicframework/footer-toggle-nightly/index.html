@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Footer Toggle: Nightly</title>
+    
+    
+    
+    
+        <link rel="stylesheet" href="css/style.css">
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <html ng-app="ionicApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    
+    <title>Toggle Footer</title>
+<link href="css/ionic.css" rel="stylesheet">
+<script src="js/ionic.bundle.js"></script>
+<script src="js/minErr.js"></script>
+<script src="js/angular.js"></script>
+  </head>
+
+  <body ng-controller="AppCtrl">
+    
+  <ion-content padding="true" ng-class="{'has-footer': showFooter}">
+    <button ng-click="toggleFooter()" class="button button-assertive">Toggle Footer</button>
+    </ion-content>
+  <ion-footer-bar class="bar-assertive" ng-if="showFooter">
+</ion-footer-bar>
+    
+  </body>
+</html>
+    
+        <script src="js/index.js"></script>
+
+    
+    
+    
+  </body>
+</html>
