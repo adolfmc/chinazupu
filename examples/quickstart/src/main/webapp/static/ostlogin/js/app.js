@@ -97,6 +97,15 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
       }
     })
     
+    .state('app.profiles2', {
+      url: '/profiles2',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/profiles2.html',
+          controller: 'Profiles2Ctrl'
+        }
+      }
+    })
     
     .state('app.profiles', {
       url: '/profiles',

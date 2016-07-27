@@ -1,0 +1,19 @@
+<ion-view view-title="OST Team">
+  <ion-content>
+	<div class="card">
+		<ion-item class="item item-avatar"
+			href="#/app/profile/{{profilelist.id}}"> <img ng-src="xx">
+		<h2>xxxx</h2>
+		<p>Opensourcetechnologies xxx</p>
+		</ion-item>
+	</div>
+
+	<ion-list>
+      <ion-item ng-repeat="profilelist in profiles" class="item item-avatar" href="#/app/profile2/{{profilelist.id}}">
+		   <img ng-src="{{profilelist.face}}">
+		   <h2>{{profilelist.name}}</h2>
+		  <p>Opensourcetechnologies ({{profilelist.deseg}})</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
