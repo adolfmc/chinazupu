@@ -92,12 +92,12 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
       views: {
         'menuContent': {
           templateUrl: 'templates/Add.html',
-          controller: 'ProfilesCtrl'
+          controller: 'AddCtrl'
         }
       }
     })
     
-
+    
     .state('app.profiles', {
       url: '/profiles',
       views: {

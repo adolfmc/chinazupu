@@ -38,6 +38,15 @@ angular.module('starter.controllers', [])
 	   });
 	 };
   //--------------------------------------------
+	 
+   	 
+  //------------createContact--------------------------------
+  $scope.createContact = function(user) {   
+	  //TODO save users
+	  
+	  $location.path('/app/profiles');   
+  };
+	 
 })
 
 .controller('ProfilesCtrl', function($scope , Profiles) {
@@ -48,8 +57,21 @@ angular.module('starter.controllers', [])
 	$scope.profile = Profiles.get($stateParams.profileId);
 })
 
-.controller('AddCtrl', function($scope, $stateParams) {
-	//$scope.profile = Profiles.get($stateParams.profileId);
+.controller('AddCtrl', function($scope) {
+	  $scope.clientSideList = [
+       { text: "Backbone", value: "bb" },
+       { text: "Angular", value: "ng" },
+       { text: "Ember", value: "em" },	
+       { text: "Knockout", value: "ko" }
+     ];
+
+	 $scope.data = {
+       clientSide: 'ng'
+     };
+     
+     $scope.serverSideChange = function(item) {
+       console.log("Selected Serverside, text:", item.text, "value:", item.value);
+     };
 })
 
 .controller('DashCtrl', function($scope, $stateParams , Profiles) {
