@@ -20,7 +20,7 @@ angular.module('starter.controllers', [])
 			return false;
 		}
 
-		if(user.username=='demo@gmail.com' && user.password=='demo'){
+		if(user.username=='admin' && user.password=='admin'){
 			$location.path('/app/dashboard');
 		}else{
 			$scope.showAlert('Invalid username or password.');	
@@ -46,6 +46,10 @@ angular.module('starter.controllers', [])
 
 .controller('ProfileCtrl', function($scope, $stateParams , Profiles) {
 	$scope.profile = Profiles.get($stateParams.profileId);
+})
+
+.controller('AddCtrl', function($scope, $stateParams) {
+	//$scope.profile = Profiles.get($stateParams.profileId);
 })
 
 .controller('DashCtrl', function($scope, $stateParams , Profiles) {

@@ -87,6 +87,16 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
 	 authStatus: true
   })
 
+    .state('app.add', {
+      url: '/add',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/Add.html',
+          controller: 'ProfilesCtrl'
+        }
+      }
+    })
+    
 
     .state('app.profiles', {
       url: '/profiles',

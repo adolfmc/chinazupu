@@ -1,4 +1,4 @@
-<ion-side-menus enable-menu-with-back-views="false" >
+<ion-side-menus enable-menu-with-back-views="true" >
   <ion-side-menu-content>
     <ion-nav-bar class="bar-stable bar-positive">
       <ion-nav-back-button>
@@ -19,6 +19,7 @@
     </ion-header-bar>
     <ion-content >
       <ion-list id="menuLinks">
+      	<ion-item menu-close href="#/app/add"> Add </ion-item>
         <ion-item menu-close href="#/app/dashboard"> Dashboard </ion-item>
         <ion-item menu-close href="#/app/profiles"> OST Team </ion-item>
 		<ion-item menu-close href="#" ng-click="logout()"> Logout </ion-item>
