@@ -87,11 +87,6 @@ public class TaskController {
 	@ResponseBody
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String create(@Valid Task newTask, RedirectAttributes redirectAttributes,String relation , HttpServletRequest  request) {
-		System.out.println(">> "+newTask.getRelation());
-		System.out.println(request.getParameter("relation"));
-		User user = new User(getCurrentUserId());
-		newTask.setUser(user);
-
 		taskService.saveTask(newTask);
 		redirectAttributes.addFlashAttribute("message", "创建任务成功");
 		return "redirect:/task/";

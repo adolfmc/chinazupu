@@ -72,14 +72,10 @@ angular.module('starter.controllers', [])
     dataType:'json'
 })
 	   */
-	  $http({
-	    method: "POST",
-	    url: "http://localhost:8001/quickstart/task/create",
-	    data:{relation: 'ssss' },
-	    async: false,
-	    dataType:'json'
-	  }).success(function(){
-      //window.location.href = "Gulugulus/subMenu";
+	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(){
+          //window.location.href = "Gulugulus/subMenu";
+      }).success(function(){
+    	  //window.location.href = "Gulugulus/subMenu";
       });
 	  
 	  $location.path('/app/profiles');   
@@ -97,10 +93,10 @@ angular.module('starter.controllers', [])
 
 .controller('AddCtrl', function($scope) {
 	  $scope.parentList = [
-       { text: "Backbone", value: "bb" },
-       { text: "Angular", value: "ng" },
-       { text: "Ember", value: "em" },	
-       { text: "Knockout", value: "ko" }
+       { text: "Backbone", value: "1" },
+       { text: "Angular", value: "2" },
+       { text: "Ember", value: "3" },	
+       { text: "Knockout", value: "4" }
      ];
 	  
 	  $scope.relationList = [
@@ -112,7 +108,7 @@ angular.module('starter.controllers', [])
      ]; 
 
 	 $scope.newTask = {
-	   parents: 'ng',
+	   parents: '1',
        relation: '0001'
      };
      
