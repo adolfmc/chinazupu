@@ -74,8 +74,6 @@ angular.module('starter.controllers', [])
 	   */
 	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(){
           //window.location.href = "Gulugulus/subMenu";
-      }).success(function(){
-    	  //window.location.href = "Gulugulus/subMenu";
       });
 	  
 	  $location.path('/app/profiles');   
@@ -83,8 +81,13 @@ angular.module('starter.controllers', [])
   
 })
 
-.controller('ProfilesCtrl', function($scope , Profiles) {
-    $scope.profiles = Profiles.all();
+.controller('ProfilesCtrl', function($http , $scope , Profiles) {
+	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:2}).success(function(data){
+		 
+    	 console.log('getTasksByParent >> '+ data);
+    	 $scope.profiles  = data;
+   	     //window.location.href = "Gulugulus/subMenu";
+     });
 })
 
 .controller('ProfileCtrl', function($scope, $stateParams , Profiles) {
@@ -100,16 +103,16 @@ angular.module('starter.controllers', [])
      ];
 	  
 	  $scope.relationList = [
-	   { text: "宗族", value: "0001" },                      
-       { text: "夫妻", value: "0002" },
-       { text: "孝男", value: "0003" },
-       { text: "孝女", value: "0004" },	
-       { text: "父母", value: "0005" }
+	   { text: "宗族", value: "宗族" },                      
+       { text: "夫妻", value: "夫妻" },
+       { text: "孝男", value: "孝男" },
+       { text: "孝女", value: "孝女" },	
+       { text: "父母", value: "父母" }
      ]; 
 
 	 $scope.newTask = {
 	   parents: '1',
-       relation: '0001'
+       relation: '宗族'
      };
      
      $scope.serverSideChange = function(item) {

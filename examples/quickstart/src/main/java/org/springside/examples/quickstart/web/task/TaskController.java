@@ -5,6 +5,7 @@
  *******************************************************************************/
 package org.springside.examples.quickstart.web.task;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springside.examples.quickstart.entity.Task;
-import org.springside.examples.quickstart.entity.User;
 import org.springside.examples.quickstart.service.account.ShiroDbRealm.ShiroUser;
 import org.springside.examples.quickstart.service.task.TaskService;
 import org.springside.modules.web.Servlets;
@@ -87,6 +87,7 @@ public class TaskController {
 	@ResponseBody
 	@RequestMapping(value = "create", method = RequestMethod.POST)
 	public String create(@Valid Task newTask, RedirectAttributes redirectAttributes,String relation , HttpServletRequest  request) {
+		newTask.setPic("img/150x165/durgesh-soni.png");
 		taskService.saveTask(newTask);
 		redirectAttributes.addFlashAttribute("message", "创建任务成功");
 		return "redirect:/task/";
@@ -111,6 +112,12 @@ public class TaskController {
 		taskService.deleteTask(id);
 		redirectAttributes.addFlashAttribute("message", "删除任务成功");
 		return "redirect:/task/";
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "getTasksByParent")
+	public List<Task> getTasksByParent(Long pid){
+		return taskService.getTasksByParent(pid);
 	}
 
 	/**

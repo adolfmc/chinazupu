@@ -5,6 +5,8 @@
  *******************************************************************************/
 package org.springside.examples.quickstart.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -20,4 +22,6 @@ public interface TaskDao extends PagingAndSortingRepository<Task, Long>, JpaSpec
 	@Modifying
 	@Query("delete from Task task where task.user.id=?1")
 	void deleteByUserId(Long id);
+	
+	List<Task> findByParents(Long pid);
 }

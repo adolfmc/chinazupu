@@ -11,9 +11,9 @@
 	  
     <ion-list>
       <ion-item ng-repeat="profilelist in profiles" class="item item-avatar" href="#/app/profile/{{profilelist.id}}">
-		   <img ng-src="{{profilelist.face}}">
-		   <h2>{{profilelist.name}}</h2>
-		  <p>Opensourcetechnologies ({{profilelist.deseg}})</p>
+		   <img ng-src="{{profilelist.pic}}">
+		   <h2>姓名:{{profilelist.name}}</h2>
+		  <p>简介: ({{profilelist.introduction}})</p>
       </ion-item>
     </ion-list>
   </ion-content>

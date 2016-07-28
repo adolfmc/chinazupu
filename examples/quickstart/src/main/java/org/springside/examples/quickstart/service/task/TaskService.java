@@ -46,6 +46,10 @@ public class TaskService {
 		return (List<Task>) taskDao.findAll();
 	}
 
+	public List<Task> getTasksByParent(Long pid) {
+		return taskDao.findByParents(pid);
+	}
+
 	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize,
 			String sortType) {
 		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
