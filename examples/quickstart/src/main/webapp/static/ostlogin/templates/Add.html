@@ -7,38 +7,61 @@
     <div class="list">
       <label class="item item-input">
         <span class="input-label">姓名</span>
-        <input ng-model="newUser.firstName" type="text">
+        <input ng-model="newTask.name" type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">分支</span>
+        <input ng-model="newTask.branch" type="text">
       </label>
       <label class="item item-input">
         <span class="input-label">年龄</span>
-        <input ng-model="newUser.lastName" type="text">
+        <input ng-model="newTask.age" type="text">
       </label>
       <label class="item item-input">
         <span class="input-label">性别</span>
-        <input ng-model="newUser.email" type="text">
+        <input ng-model="newTask.gender" type="text">
       </label>
 	  <label class="item item-input">
-        <span class="input-label">性别</span>
-        <input ng-model="newUser.email" type="text">
+        <span class="input-label">生辰</span>
+        <input ng-model="newTask.birthday" type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">头像</span>
+        <input ng-model="newTask.pic" type="text">
       </label>
 	  <label class="item item-input">
         <span class="input-label">简介</span>
-        <textarea placeholder="Comments"></textarea>
+        <textarea ng-model="newTask.introduction" placeholder="introduction"></textarea>
       </label>
 
       <div class="list">
         <div class="item item-divider"> 
-          Clientside, Selected Value: {{ data.clientSide }}
+          	父级: {{ newTask.parents }}
         </div>
         
-        <ion-radio ng-repeat="item in clientSideList"
+        <ion-radio ng-repeat="item in parentList"
                    ng-value="item.value"
-                   ng-model="data.clientSide">
+                   ng-model="newTask.parents"
+                   ng-change="parentChange(item)"
+                   name="parent">
           {{ item.text }}
         </ion-radio>
+        
+         <div class="item item-divider"> 
+          	关系: {{ newTask.relation }}
+        </div>
+        
+        <ion-radio ng-repeat="item in relationList"
+                   ng-value="item.value"
+                   ng-model="newTask.relation"
+                   ng-change="relationChange(item)"
+                   name="relation">
+          {{ item.text }}
+        </ion-radio>
+        
       </div>
 
-	<button class="button button-full button-positive" ng-click="createContact(newUser)">Create</button>
+	<button class="button button-full button-positive" ng-click="createContact(newTask)">Create</button>
     </div>	
   </ion-content>
 </ion-modal-view>

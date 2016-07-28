@@ -5,25 +5,145 @@
  *******************************************************************************/
 package org.springside.examples.quickstart.entity;
 
+import java.util.ArrayList;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.hibernate.validator.constraints.NotBlank;
 
 //JPA标识
 @Entity
 @Table(name = "ss_task")
 public class Task extends IdEntity {
-
 	private String title;
 	private String description;
 	private User user;
+	private Long clanid;
+	private Long userid;
+	private String name;
+	private String generations;
+	private String branch;
+	private Long age;
+	private String birthday;
+	private String gender;
+	private String pic;
+	private Long parents;
+	private String relation;
+	private String introduction;
+
+	private ArrayList<Task> parentts = new ArrayList<Task>();
+
+	@Transient
+	public ArrayList<Task> getParentts() {
+		return parentts;
+	}
+
+	public void setParentts(ArrayList<Task> parentts) {
+		this.parentts = parentts;
+	}
+
+	public Long getClanid() {
+		return clanid;
+	}
+
+	public void setClanid(Long clanid) {
+		this.clanid = clanid;
+	}
+
+	public Long getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Long userid) {
+		this.userid = userid;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getGenerations() {
+		return generations;
+	}
+
+	public void setGenerations(String generations) {
+		this.generations = generations;
+	}
+
+	public String getBranch() {
+		return branch;
+	}
+
+	public void setBranch(String branch) {
+		this.branch = branch;
+	}
+
+	public Long getAge() {
+		return age;
+	}
+
+	public void setAge(Long age) {
+		this.age = age;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getPic() {
+		return pic;
+	}
+
+	public void setPic(String pic) {
+		this.pic = pic;
+	}
+
+	public Long getParents() {
+		return parents;
+	}
+
+	public void setParents(Long parents) {
+		this.parents = parents;
+	}
+
+	public String getRelation() {
+		return relation;
+	}
+
+	public void setRelation(String relation) {
+		this.relation = relation;
+	}
+
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
 
 	// JSR303 BeanValidator的校验规则
-	@NotBlank
+//	@NotBlank
 	public String getTitle() {
 		return title;
 	}

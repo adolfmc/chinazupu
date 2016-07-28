@@ -43,10 +43,12 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
 
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
-  $stateProvider
+.config(function($stateProvider, $urlRouterProvider ,$httpProvider) {
+ $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+ $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
-    .state('app', {
+	
+  $stateProvider.state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',

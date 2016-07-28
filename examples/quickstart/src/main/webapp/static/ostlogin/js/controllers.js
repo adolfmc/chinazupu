@@ -1,6 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout,  $location, $ionicPopup) {
+.controller('AppCtrl', function($http,$scope, $ionicModal, $ionicPopover, $timeout,  $location, $ionicPopup) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -41,12 +41,50 @@ angular.module('starter.controllers', [])
 	 
    	 
   //------------createContact--------------------------------
-  $scope.createContact = function(user) {   
+  $scope.createContact = function(newTask) {   
 	  //TODO save users
+	  console.log(newTask);
+	  
+	  /**
+	   * POST 1
+	   * $http.post('http://localhost:8001/quickstart/task/create', {
+		  newTask: newTask
+      })
+	   */
+	  
+	  
+	  /**
+	   * POST 2
+	   * http.post('http://localhost:8001/quickstart/task/create',newTask).success(function(){
+          //window.location.href = "Gulugulus/subMenu";
+      });
+	   * 
+	   */
+	  
+	  
+	  /**
+	   * POST 3
+	   * $http({
+    method: "POST",
+    url: "/metronic/api/getAfterSales",
+    data:$.param({orderNo: orderNo,sessionId:sessionId}),
+    async: false,
+    dataType:'json'
+})
+	   */
+	  $http({
+	    method: "POST",
+	    url: "http://localhost:8001/quickstart/task/create",
+	    data:{relation: 'ssss' },
+	    async: false,
+	    dataType:'json'
+	  }).success(function(){
+      //window.location.href = "Gulugulus/subMenu";
+      });
 	  
 	  $location.path('/app/profiles');   
   };
-	 
+  
 })
 
 .controller('ProfilesCtrl', function($scope , Profiles) {
@@ -58,15 +96,24 @@ angular.module('starter.controllers', [])
 })
 
 .controller('AddCtrl', function($scope) {
-	  $scope.clientSideList = [
+	  $scope.parentList = [
        { text: "Backbone", value: "bb" },
        { text: "Angular", value: "ng" },
        { text: "Ember", value: "em" },	
        { text: "Knockout", value: "ko" }
      ];
+	  
+	  $scope.relationList = [
+	   { text: "宗族", value: "0001" },                      
+       { text: "夫妻", value: "0002" },
+       { text: "孝男", value: "0003" },
+       { text: "孝女", value: "0004" },	
+       { text: "父母", value: "0005" }
+     ]; 
 
-	 $scope.data = {
-       clientSide: 'ng'
+	 $scope.newTask = {
+	   parents: 'ng',
+       relation: '0001'
      };
      
      $scope.serverSideChange = function(item) {

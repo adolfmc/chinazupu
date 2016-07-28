@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.TableGenerator;
 
 /**
  * 统一定义id的entity基类.
@@ -25,7 +26,8 @@ public abstract class IdEntity {
 	protected Long id;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "generator")
+	@TableGenerator(name = "generator", table = "CZUPU_SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_VALUE", pkColumnValue = "CZUPU_SEQ", allocationSize = 1)
 	public Long getId() {
 		return id;
 	}
