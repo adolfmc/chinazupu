@@ -86,11 +86,10 @@ public class TaskController {
 
 	@ResponseBody
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public String create(@Valid Task newTask, RedirectAttributes redirectAttributes,String relation , HttpServletRequest  request) {
+	public void create(@Valid Task newTask, RedirectAttributes redirectAttributes,String relation , HttpServletRequest  request) {
 		newTask.setPic("img/150x165/durgesh-soni.png");
 		taskService.saveTask(newTask);
 		redirectAttributes.addFlashAttribute("message", "创建任务成功");
-		return "redirect:/task/";
 	}
 
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)

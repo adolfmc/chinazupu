@@ -174,7 +174,6 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
   
   //post data transfrom request
   $httpProvider.defaults.transformRequest = [function(data) {
-	    console.log('transformRequest >> '+ data);
 	    return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
    }];
   

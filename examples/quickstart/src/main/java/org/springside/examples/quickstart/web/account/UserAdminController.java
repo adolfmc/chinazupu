@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springside.examples.quickstart.entity.User;
 import org.springside.examples.quickstart.service.account.AccountService;
@@ -71,5 +72,11 @@ public class UserAdminController {
 		if (id != -1) {
 			model.addAttribute("user", accountService.getUser(id));
 		}
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "getUserByLoginName")
+	public User getUserByLoginName(String loginName){
+		return accountService.findUserByLoginName(loginName);
 	}
 }

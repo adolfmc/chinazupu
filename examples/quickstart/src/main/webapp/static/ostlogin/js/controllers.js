@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers',  ['ngCookies'] )
 
-.controller('AppCtrl', function($http,$scope, $ionicModal, $ionicPopover, $timeout,  $location, $ionicPopup) {
+.controller('AppCtrl', function($http, $scope, $ionicModal, $ionicPopover, $timeout,  $location, $ionicPopup , $cookieStore) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -9,6 +9,8 @@ angular.module('starter.controllers', [])
   //$scope.$on('$ionicView.enter', function(e) {
   //});
 
+	
+	
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -20,11 +22,19 @@ angular.module('starter.controllers', [])
 			return false;
 		}
 
-		if(user.username=='admin' && user.password=='admin'){
-			$location.path('/app/dashboard');
-		}else{
-			$scope.showAlert('Invalid username or password.');	
-		}
+		$http.post('http://localhost:8001/quickstart//admin/user/getUserByLoginName',{loginName:user.username}).success(function(data){
+			console.log('login success...');
+			
+			if(user.username=='admin' && user.password==data.password){
+				$cookieStore.put("loginid", data.id);
+				$cookieStore.put("loginPid", "xcccc");
+				
+				$location.path('/app/profiles');
+			}else{
+				$scope.showAlert('Invalid username or password.');	
+			}
+		});
+		
 		
 	};
   //--------------------------------------------
@@ -42,52 +52,30 @@ angular.module('starter.controllers', [])
    	 
   //------------createContact--------------------------------
   $scope.createContact = function(newTask) {   
-	  //TODO save users
+	  console.log('createContact begain...');
 	  console.log(newTask);
-	  
-	  /**
-	   * POST 1
-	   * $http.post('http://localhost:8001/quickstart/task/create', {
-		  newTask: newTask
-      })
-	   */
-	  
-	  
-	  /**
-	   * POST 2
-	   * http.post('http://localhost:8001/quickstart/task/create',newTask).success(function(){
-          //window.location.href = "Gulugulus/subMenu";
-      });
-	   * 
-	   */
-	  
-	  
-	  /**
-	   * POST 3
-	   * $http({
-    method: "POST",
-    url: "/metronic/api/getAfterSales",
-    data:$.param({orderNo: orderNo,sessionId:sessionId}),
-    async: false,
-    dataType:'json'
-})
-	   */
-	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(){
-          //window.location.href = "Gulugulus/subMenu";
+
+	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(data){
+		  console.log('createContact function success...'+data);
+		  $location.path('/app/profiles');   
       });
 	  
-	  $location.path('/app/profiles');   
+	  console.log('createContact end...');
   };
   
 })
 
-.controller('ProfilesCtrl', function($http , $scope , Profiles) {
+.controller('ProfilesCtrl', function($http , $scope , Profiles , $cookieStore) {
+	 console.log('profilesCtrl begain...');
 	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:2}).success(function(data){
-		 
+		 console.log('ProfilesCtrl funtion success...');
+		 $scope.profiles  = data;
     	 console.log('getTasksByParent >> '+ data);
-    	 $scope.profiles  = data;
-   	     //window.location.href = "Gulugulus/subMenu";
      });
+	 
+	 var xx = $cookieStore.get("loginid");
+	 console.info('cookieStore >> '+xx);
+	 console.log('profilesCtrl end...');
 })
 
 .controller('ProfileCtrl', function($scope, $stateParams , Profiles) {
