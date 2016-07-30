@@ -7,6 +7,7 @@ package org.springside.examples.quickstart.service.task;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +17,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springside.examples.quickstart.entity.Clan;
 import org.springside.examples.quickstart.entity.Task;
+import org.springside.examples.quickstart.repository.ClanDao;
 import org.springside.examples.quickstart.repository.TaskDao;
+import org.springside.examples.quickstart.web.vo.Result;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
 import org.springside.modules.persistence.SearchFilter.Operator;
@@ -30,12 +34,31 @@ public class TaskService {
 
 	private TaskDao taskDao;
 
+	@Autowired
+	private ClanDao clanDao;
+
 	public Task getTask(Long id) {
 		return taskDao.findOne(id);
 	}
 
-	public void saveTask(Task entity) {
+	public Result saveTask(Task entity) {
+
+		Result result = Result.getInstance();
+		if (entity.getParents() == 0L) {
+			if (getTasksByParent(0L).isEmpty() == false) {
+				result.setSuccess(false);
+				result.setMessage("顶级宗族已建立.");
+				return result;
+			}else{
+				Clan clan = new Clan();
+				clan.setBranch(UUID.randomUUID().toString());
+				clan.setSurname(entity.getName().substring(1));
+				clanDao.save(clan);
+			}
+		}
+
 		taskDao.save(entity);
+		return result;
 	}
 
 	public void deleteTask(Long id) {
@@ -50,8 +73,7 @@ public class TaskService {
 		return taskDao.findByParentsOrderByIdDesc(pid);
 	}
 
-	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize,
-			String sortType) {
+	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {
 		PageRequest pageRequest = buildPageRequest(pageNumber, pageSize, sortType);
 		Specification<Task> spec = buildSpecification(userId, searchParams);
 
@@ -86,4 +108,5 @@ public class TaskService {
 	public void setTaskDao(TaskDao taskDao) {
 		this.taskDao = taskDao;
 	}
+
 }

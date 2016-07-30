@@ -23,13 +23,13 @@ angular.module('starter.controllers',  ['ngCookies'] )
 		}
 
 		$http.post('http://localhost:8001/quickstart/admin/user/getUserByLoginName',{loginName:user.username}).success(function(data){
-			console.log('login success...');
 			
 			if(user.username=='admin' && user.password==data.password){
+				console.log('login success...');
 				$cookieStore.put("loginid", data.id);
 				$cookieStore.put("loginPid", "xcccc");
 				
-				$location.path('http://localhost:8001/quickstart/app/profiles');
+				$location.path('/app/profiles');
 			}else{
 				$scope.showAlert('Invalid username or password.');	
 			}
@@ -56,9 +56,13 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	  console.log(newTask);
 
 	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(data){
-		  console.log('createContact function success...'+data);
-		  $location.path('/app/profiles');   
-
+		  if(data.success==false){
+			  // An alert dialog
+			  $scope.showAlert(data.message);	
+			  $location.path('/app/profiles');   
+		  }else{
+			  console.log('createContact function success...'+data);
+		  }
 	  });
 	  
 	  console.log('createContact end...');
@@ -68,14 +72,20 @@ angular.module('starter.controllers',  ['ngCookies'] )
 
 .controller('ProfilesCtrl', function($http , $scope , Profiles , $cookieStore) {
 	 console.log('profilesCtrl begain...');
-	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:0}).success(function(data){
+	 var lid = $cookieStore.get("loginid");
+	 console.info('cookieStore >> '+lid);
+	 
+	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:0,lid: lid}).success(function(data){
 		 console.log('ProfilesCtrl funtion success...');
 		 $scope.profiles  = data;
+		 
+		 
+		 
+		 
+		 
     	 console.log('getTasksByParent >> '+ data);
      });
 	 
-	 var xx = $cookieStore.get("loginid");
-	 console.info('cookieStore >> '+xx);
 	 console.log('profilesCtrl end...');
 })
 
@@ -83,14 +93,19 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	$scope.profile = Profiles.get($stateParams.profileId);
 })
 
-.controller('AddCtrl', function($scope , $stateParams ) {
+.controller('AddCtrl', function($scope , $stateParams , $cookieStore) {
 	var Nid = $stateParams.Nid;
 	console.log('add ctrl .. Nid = '+Nid);
+	
+	//set uid
+	var lid = $cookieStore.get("loginid");
+	
 	
 	if(Nid==0){
 	   	  $scope.newTask = {
 	   			  parents: '0',
-	   			  relation: '宗族'
+	   			  relation: '宗族',
+	   			  userid: lid
 	   	  };
 	}else{
 		 $scope.parentList = [

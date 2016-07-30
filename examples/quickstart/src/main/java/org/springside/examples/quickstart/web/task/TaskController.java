@@ -27,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springside.examples.quickstart.entity.Task;
 import org.springside.examples.quickstart.service.account.ShiroDbRealm.ShiroUser;
 import org.springside.examples.quickstart.service.task.TaskService;
+import org.springside.examples.quickstart.web.vo.Result;
 import org.springside.modules.web.Servlets;
 
 import com.google.common.collect.Maps;
@@ -34,12 +35,9 @@ import com.google.common.collect.Maps;
 /**
  * Task管理的Controller, 使用Restful风格的Urls:
  * 
- * List page : GET /task/
- * Create page : GET /task/create
- * Create action : POST /task/create
- * Update page : GET /task/update/{id}
- * Update action : POST /task/update
- * Delete action : GET /task/delete/{id}
+ * List page : GET /task/ Create page : GET /task/create Create action : POST
+ * /task/create Update page : GET /task/update/{id} Update action : POST
+ * /task/update Delete action : GET /task/delete/{id}
  * 
  * @author calvin
  */
@@ -59,10 +57,8 @@ public class TaskController {
 	private TaskService taskService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String list(@RequestParam(value = "page", defaultValue = "1") int pageNumber,
-			@RequestParam(value = "page.size", defaultValue = PAGE_SIZE) int pageSize,
-			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model,
-			ServletRequest request) {
+	public String list(@RequestParam(value = "page", defaultValue = "1") int pageNumber, @RequestParam(value = "page.size", defaultValue = PAGE_SIZE) int pageSize,
+			@RequestParam(value = "sortType", defaultValue = "auto") String sortType, Model model, ServletRequest request) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		Long userId = getCurrentUserId();
 
@@ -86,10 +82,13 @@ public class TaskController {
 
 	@ResponseBody
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public void create(@Valid Task newTask, RedirectAttributes redirectAttributes,String relation , HttpServletRequest  request) {
+	public Result create(@Valid Task newTask, RedirectAttributes redirectAttributes, String relation, HttpServletRequest request) {
+
 		newTask.setPic("img/150x165/durgesh-soni.png");
-		taskService.saveTask(newTask);
+		Result result = taskService.saveTask(newTask);
 		redirectAttributes.addFlashAttribute("message", "创建任务成功");
+
+		return result;
 	}
 
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
@@ -115,12 +114,14 @@ public class TaskController {
 
 	@ResponseBody
 	@RequestMapping(value = "getTasksByParent")
-	public List<Task> getTasksByParent(Long pid){
+	public List<Task> getTasksByParent(Long pid, Long lid) {
+
 		return taskService.getTasksByParent(pid);
 	}
 
 	/**
-	 * 所有RequestMapping方法调用前的Model准备方法, 实现Struts2 Preparable二次部分绑定的效果,先根据form的id从数据库查出Task对象,再把Form提交的内容绑定到该对象上。
+	 * 所有RequestMapping方法调用前的Model准备方法, 实现Struts2
+	 * Preparable二次部分绑定的效果,先根据form的id从数据库查出Task对象,再把Form提交的内容绑定到该对象上。
 	 * 因为仅update()方法的form中有id属性，因此仅在update时实际执行.
 	 */
 	@ModelAttribute

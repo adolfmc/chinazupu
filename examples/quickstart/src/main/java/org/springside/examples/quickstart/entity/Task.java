@@ -54,6 +54,7 @@ public class Task extends IdEntity {
 		this.clanid = clanid;
 	}
 
+	@Transient
 	public Long getUserid() {
 		return userid;
 	}
@@ -143,7 +144,7 @@ public class Task extends IdEntity {
 	}
 
 	// JSR303 BeanValidator的校验规则
-//	@NotBlank
+	// @NotBlank
 	public String getTitle() {
 		return title;
 	}

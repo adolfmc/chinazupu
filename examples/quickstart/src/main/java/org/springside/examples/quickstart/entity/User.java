@@ -30,6 +30,15 @@ public class User extends IdEntity {
 	private String salt;
 	private String roles;
 	private Date registerDate;
+	private Long clanId;
+
+	public Long getClanId() {
+		return clanId;
+	}
+
+	public void setClanId(Long clanId) {
+		this.clanId = clanId;
+	}
 
 	public User() {
 	}
