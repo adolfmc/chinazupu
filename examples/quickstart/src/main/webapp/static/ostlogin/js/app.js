@@ -90,7 +90,8 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
   })
 
     .state('app.add', {
-      url: '/add',
+      url: '/add/:Nid',
+      cache:'false', 
       views: {
         'menuContent': {
           templateUrl: 'templates/Add.html',
@@ -111,6 +112,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
     
     .state('app.profiles', {
       url: '/profiles',
+      cache:'false', 
       views: {
         'menuContent': {
           templateUrl: 'templates/profiles.html',
@@ -121,6 +123,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
 
   .state('app.profile', {
     url: '/profile/:profileId',
+    cache:'false', 
     views: {
       'menuContent': {
         templateUrl: 'templates/profile-detail.html',

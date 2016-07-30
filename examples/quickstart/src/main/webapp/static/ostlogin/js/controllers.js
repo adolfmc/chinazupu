@@ -1,6 +1,6 @@
 angular.module('starter.controllers',  ['ngCookies'] )
 
-.controller('AppCtrl', function($http, $scope, $ionicModal, $ionicPopover, $timeout,  $location, $ionicPopup , $cookieStore) {
+.controller('AppCtrl', function($state, $http, $scope, $ionicModal, $ionicPopover, $timeout,  $location, $ionicPopup , $cookieStore) {
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -22,14 +22,14 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			return false;
 		}
 
-		$http.post('http://localhost:8001/quickstart//admin/user/getUserByLoginName',{loginName:user.username}).success(function(data){
+		$http.post('http://localhost:8001/quickstart/admin/user/getUserByLoginName',{loginName:user.username}).success(function(data){
 			console.log('login success...');
 			
 			if(user.username=='admin' && user.password==data.password){
 				$cookieStore.put("loginid", data.id);
 				$cookieStore.put("loginPid", "xcccc");
 				
-				$location.path('/app/profiles');
+				$location.path('http://localhost:8001/quickstart/app/profiles');
 			}else{
 				$scope.showAlert('Invalid username or password.');	
 			}
@@ -58,7 +58,8 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(data){
 		  console.log('createContact function success...'+data);
 		  $location.path('/app/profiles');   
-      });
+
+	  });
 	  
 	  console.log('createContact end...');
   };
@@ -67,7 +68,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 
 .controller('ProfilesCtrl', function($http , $scope , Profiles , $cookieStore) {
 	 console.log('profilesCtrl begain...');
-	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:2}).success(function(data){
+	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:0}).success(function(data){
 		 console.log('ProfilesCtrl funtion success...');
 		 $scope.profiles  = data;
     	 console.log('getTasksByParent >> '+ data);
@@ -82,30 +83,32 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	$scope.profile = Profiles.get($stateParams.profileId);
 })
 
-.controller('AddCtrl', function($scope) {
-	  $scope.parentList = [
-       { text: "Backbone", value: "1" },
-       { text: "Angular", value: "2" },
-       { text: "Ember", value: "3" },	
-       { text: "Knockout", value: "4" }
-     ];
-	  
-	  $scope.relationList = [
-	   { text: "宗族", value: "宗族" },                      
-       { text: "夫妻", value: "夫妻" },
-       { text: "孝男", value: "孝男" },
-       { text: "孝女", value: "孝女" },	
-       { text: "父母", value: "父母" }
-     ]; 
-
-	 $scope.newTask = {
-	   parents: '1',
-       relation: '宗族'
-     };
-     
-     $scope.serverSideChange = function(item) {
-       console.log("Selected Serverside, text:", item.text, "value:", item.value);
-     };
+.controller('AddCtrl', function($scope , $stateParams ) {
+	var Nid = $stateParams.Nid;
+	console.log('add ctrl .. Nid = '+Nid);
+	
+	if(Nid==0){
+	   	  $scope.newTask = {
+	   			  parents: '0',
+	   			  relation: '宗族'
+	   	  };
+	}else{
+		 $scope.parentList = [
+	          { text: "Backbone", value: "1" },
+	          { text: "Angular", value: "2" },
+	          { text: "Ember", value: "3" },	
+	          { text: "Knockout", value: "4" }
+	        ];
+	   	  $scope.relationList = [
+	          { text: "夫妻", value: "夫妻" },
+	          { text: "子女", value: "子女" },
+	          { text: "父母", value: "父母" }
+	       ]; 
+	   	  $scope.newTask = {
+	   			  parents: '1',
+	   			  relation: '宗族'
+	   	  };
+	}
 })
 
 .controller('DashCtrl', function($scope, $stateParams , Profiles) {

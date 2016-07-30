@@ -47,7 +47,7 @@ public class TaskService {
 	}
 
 	public List<Task> getTasksByParent(Long pid) {
-		return taskDao.findByParents(pid);
+		return taskDao.findByParentsOrderByIdDesc(pid);
 	}
 
 	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize,
