@@ -3,14 +3,14 @@
 
 	<div class="card">
 		<ion-item class="item item-avatar" href="#/app/profile/{{profilelist.id}}"> <img ng-src="xx">
-		<h2>孙悟空</h2>
-		<p>历 两任妻子 xxx</p>
-		<p>历 18位子孙</p>
+		<h2>孙悟空 (孙氏宗谱 第 一  世)</h2>
+		<p>妻子 ( 琪琪 ) </p>
+		<p>膝下共  18  位子孙</p>
 		</ion-item>
 	</div>
 	  
     <ion-list>
-      <ion-item ng-repeat="profilelist in profiles" class="item item-avatar" href="#/app/profile/{{profilelist.id}}">
+      <ion-item ng-repeat="profilelist in profiles.results" class="item item-avatar" href="#/app/profile/{{profilelist.id}}">
 		   <img ng-src="{{profilelist.pic}}">
 		   <h2>姓名: {{profilelist.name}}</h2>
 		  <p>简介: ({{profilelist.introduction}})</p>

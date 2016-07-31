@@ -22,8 +22,8 @@ public class Task extends IdEntity {
 	private String title;
 	private String description;
 	private User user;
-	private Long clanid;
-	private Long userid;
+	private Long clanId;
+	private Long userId;
 	private String name;
 	private String generations;
 	private String branch;
@@ -46,21 +46,22 @@ public class Task extends IdEntity {
 		this.parentts = parentts;
 	}
 
-	public Long getClanid() {
-		return clanid;
+
+	public Long getClanId() {
+		return clanId;
 	}
 
-	public void setClanid(Long clanid) {
-		this.clanid = clanid;
+	public void setClanId(Long clanId) {
+		this.clanId = clanId;
 	}
 
 	@Transient
-	public Long getUserid() {
-		return userid;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setUserid(Long userid) {
-		this.userid = userid;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getName() {

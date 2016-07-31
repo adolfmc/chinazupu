@@ -1,12 +1,9 @@
 package org.springside.examples.quickstart.web.vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Result {
 	private String message;
 	private boolean success = true;
-	private List<Object> results = new ArrayList<Object>();
+	private Object results = new Object();
 
 	public Result() {
 	}
@@ -31,12 +28,12 @@ public class Result {
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-
-	public List<Object> getResults() {
+	
+	public Object getResults() {
 		return results;
 	}
 
-	public void setResults(List<Object> results) {
+	public void setResults(Object results) {
 		this.results = results;
 	}
 

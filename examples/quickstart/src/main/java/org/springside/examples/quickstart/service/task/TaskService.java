@@ -45,7 +45,7 @@ public class TaskService {
 
 		Result result = Result.getInstance();
 		if (entity.getParents() == 0L) {
-			if (getTasksByParent(0L).isEmpty() == false) {
+			if (getTasksByParent(0L,entity.getClanId()).isEmpty() == false) {
 				result.setSuccess(false);
 				result.setMessage("顶级宗族已建立.");
 				return result;
@@ -69,8 +69,8 @@ public class TaskService {
 		return (List<Task>) taskDao.findAll();
 	}
 
-	public List<Task> getTasksByParent(Long pid) {
-		return taskDao.findByParentsOrderByIdDesc(pid);
+	public List<Task> getTasksByParent(Long pid,Long clanId) {
+		return taskDao.findByParentsAndClanIdOrderByIdDesc(pid, clanId);
 	}
 
 	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {

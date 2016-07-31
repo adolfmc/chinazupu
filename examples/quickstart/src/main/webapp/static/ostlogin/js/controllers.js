@@ -22,14 +22,26 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			return false;
 		}
 
-		$http.post('http://localhost:8001/quickstart/admin/user/getUserByLoginName',{loginName:user.username}).success(function(data){
+		$http.post('http://localhost:8001/quickstart/admin/user/getUserByLoginName',{loginName:user.username}).success(function(dbuser){
 			
-			if(user.username=='admin' && user.password==data.password){
+			if(user.username=='admin' && user.password==user.password){
 				console.log('login success...');
-				$cookieStore.put("loginid", data.id);
+				console.log('login user clanId = '+dbuser.clanId);
+				$cookieStore.put("loginid", dbuser.id);
 				$cookieStore.put("loginPid", "xcccc");
+				var lid = $cookieStore.get("loginid");
 				
-				$location.path('/app/profiles');
+				//judgment infos size
+				$http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:0,lid: lid,clanId:dbuser.clanId}).success(function(data){
+					console.log('>>>length '+data.results.length );
+					console.log('>>>clanId '+dbuser.clanId);
+					if(data.results.length==0){
+						 $location.path('/app/noneinfo');
+					 }else{
+						 $location.path('/app/profiles/'+dbuser.clanId);
+					 }
+				 
+				})
 			}else{
 				$scope.showAlert('Invalid username or password.');	
 			}
@@ -70,12 +82,18 @@ angular.module('starter.controllers',  ['ngCookies'] )
   
 })
 
-.controller('ProfilesCtrl', function($http , $scope , Profiles , $cookieStore) {
+.controller('InfoNoneCtrl', function($http , $scope , Profiles , $cookieStore) {
+})
+
+
+.controller('ProfilesCtrl', function($http , $scope , Profiles , $cookieStore, $stateParams) {
 	 console.log('profilesCtrl begain...');
 	 var lid = $cookieStore.get("loginid");
+	 var clanId = $stateParams.clanId;
 	 console.info('cookieStore >> '+lid);
+	 console.info('clanId >> '+clanId);
 	 
-	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:0,lid: lid}).success(function(data){
+	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:0,lid: lid, clanId:clanId}).success(function(data){
 		 console.log('ProfilesCtrl funtion success...');
 		 $scope.profiles  = data;
 		 
@@ -83,7 +101,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 		 
 		 
 		 
-    	 console.log('getTasksByParent >> '+ data);
+    	 console.log('getTasksByParent >> '+ data.length);
      });
 	 
 	 console.log('profilesCtrl end...');
@@ -105,7 +123,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	   	  $scope.newTask = {
 	   			  parents: '0',
 	   			  relation: '宗族',
-	   			  userid: lid
+	   			  userId: lid
 	   	  };
 	}else{
 		 $scope.parentList = [

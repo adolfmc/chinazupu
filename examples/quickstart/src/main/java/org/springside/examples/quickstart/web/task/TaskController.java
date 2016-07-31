@@ -114,9 +114,10 @@ public class TaskController {
 
 	@ResponseBody
 	@RequestMapping(value = "getTasksByParent")
-	public List<Task> getTasksByParent(Long pid, Long lid) {
-
-		return taskService.getTasksByParent(pid);
+	public Result getTasksByParent(Long pid, Long lid,Long clanId) {
+		Result result = Result.getInstance();
+		result.setResults(taskService.getTasksByParent(pid,clanId));
+		return result;
 	}
 
 	/**

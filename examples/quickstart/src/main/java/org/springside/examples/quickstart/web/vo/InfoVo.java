@@ -37,4 +37,26 @@ public class InfoVo {
 		this.cInfos = cInfos;
 	}
 
+//	private String surname;
+//	private String fullName;
+//	private String generations;
+//	private String posteritys;
+
+	public String getSurname() {
+		return mInfo.getName().substring(0);
+	}
+
+	public String getFullName() {
+		return mInfo.getName();
+	}
+
+	public String getGenerations() {
+		return mInfo.getGenerations();
+	}
+
+	public String getPosteritys() {
+		return null;
+	}
+	
+	
 }

@@ -99,6 +99,16 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
         }
       }
     })
+
+    .state('app.noneinfo', {
+      url: '/noneinfo',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/info/none-info.html',
+          controller: 'InfoNoneCtrl'
+        }
+      }
+    })
     
     .state('app.profiles2', {
       url: '/profiles2',
@@ -111,7 +121,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
     })
     
     .state('app.profiles', {
-      url: '/profiles',
+      url: '/profiles/:clanId',
       cache:'false', 
       views: {
         'menuContent': {
