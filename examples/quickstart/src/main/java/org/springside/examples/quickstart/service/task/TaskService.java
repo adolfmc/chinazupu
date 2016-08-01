@@ -21,6 +21,7 @@ import org.springside.examples.quickstart.entity.Clan;
 import org.springside.examples.quickstart.entity.Task;
 import org.springside.examples.quickstart.repository.ClanDao;
 import org.springside.examples.quickstart.repository.TaskDao;
+import org.springside.examples.quickstart.util.CodeGenerator;
 import org.springside.examples.quickstart.web.vo.Result;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
@@ -45,20 +46,35 @@ public class TaskService {
 
 		Result result = Result.getInstance();
 		if (entity.getParents() == 0L) {
-			if (getTasksByParent(0L,entity.getClanId()).isEmpty() == false) {
+			if (getTasksByParent(0L, entity.getClanId()).isEmpty() == false) {
+				entity.setCode("000");
 				result.setSuccess(false);
 				result.setMessage("顶级宗族已建立.");
 				return result;
-			}else{
+			} else {
 				Clan clan = new Clan();
 				clan.setBranch(UUID.randomUUID().toString());
 				clan.setSurname(entity.getName().substring(1));
+				entity.setCode(getNextChildCodeByPid(entity.getParents()));
 				clanDao.save(clan);
 			}
 		}
 
 		taskDao.save(entity);
 		return result;
+	}
+
+	public String getNextChildCodeByPid(Long pid) {
+		List<Task> tasks = taskDao.findByParentsOrderByIdDesc(pid);
+		String code = null;
+		if (tasks.isEmpty()) {
+			code = taskDao.findOne(pid).getCode() + "000";
+
+		} else {
+			code = CodeGenerator.getChildNext(tasks.get(0).getCode());
+		}
+
+		return code;
 	}
 
 	public void deleteTask(Long id) {
@@ -69,7 +85,7 @@ public class TaskService {
 		return (List<Task>) taskDao.findAll();
 	}
 
-	public List<Task> getTasksByParent(Long pid,Long clanId) {
+	public List<Task> getTasksByParent(Long pid, Long clanId) {
 		return taskDao.findByParentsAndClanIdOrderByIdDesc(pid, clanId);
 	}
 

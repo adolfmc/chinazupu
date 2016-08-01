@@ -24,4 +24,6 @@ public interface TaskDao extends PagingAndSortingRepository<Task, Long>, JpaSpec
 	void deleteByUserId(Long id);
 	
 	List<Task> findByParentsAndClanIdOrderByIdDesc(Long pid,Long clanId);
+	
+	List<Task> findByParentsOrderByIdDesc(Long pid);
 }

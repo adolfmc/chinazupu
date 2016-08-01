@@ -7,6 +7,7 @@ package org.springside.examples.quickstart.entity;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -34,6 +35,7 @@ public class Task extends IdEntity {
 	private Long parents;
 	private String relation;
 	private String introduction;
+	private String code;
 
 	private ArrayList<Task> parentts = new ArrayList<Task>();
 
@@ -176,5 +178,14 @@ public class Task extends IdEntity {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
+	}
+
+	@Column(length=2000)
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }
