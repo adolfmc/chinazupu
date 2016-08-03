@@ -38,10 +38,18 @@ public class TaskService {
 	@Autowired
 	private ClanDao clanDao;
 
+	public List<Task> getInfosByPidAndRelationOrderByIdDesc(Long pid,String relation){
+		return taskDao.findByParentsAndRelationOrderByIdDesc(pid, relation);
+	}
+	
+	public List<Task> getChildsByCode(String code){
+		return taskDao.findByCodeStartingWith(code);
+	}
+	
 	public Task getTask(Long id) {
 		return taskDao.findOne(id);
 	}
-
+	
 	public Result saveTask(Task entity) {
 
 		Result result = Result.getInstance();
@@ -86,7 +94,7 @@ public class TaskService {
 	}
 
 	public List<Task> getTasksByParent(Long pid, Long clanId) {
-		return taskDao.findByParentsAndClanIdOrderByIdDesc(pid, clanId);
+		return taskDao.findByParentsAndClanIdAndIdNotOrderByIdDesc(pid, clanId, pid);
 	}
 
 	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {

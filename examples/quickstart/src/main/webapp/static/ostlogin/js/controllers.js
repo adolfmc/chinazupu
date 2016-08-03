@@ -98,17 +98,20 @@ angular.module('starter.controllers',  ['ngCookies'] )
 		 $scope.profiles  = data;
 		 
 		 
-		 
-		 
-		 
     	 console.log('getTasksByParent >> '+ data.length);
      });
 	 
 	 console.log('profilesCtrl end...');
 })
 
-.controller('ProfileCtrl', function($scope, $stateParams , Profiles) {
-	$scope.profile = Profiles.get($stateParams.profileId);
+.controller('ProfileCtrl', function($http, $scope, $stateParams , Profiles) {
+	 $http.post('http://localhost:8001/quickstart/task/getTasksById',{id:$stateParams.profileId}).success(function(data){
+		 console.log('ProfilesCtrl funtion success...');
+		 $scope.profile  = data;
+		 
+		 
+    	 console.log('getTasksByParent >> '+ data.length);
+     });
 })
 
 .controller('AddCtrl', function($scope , $stateParams , $cookieStore) {

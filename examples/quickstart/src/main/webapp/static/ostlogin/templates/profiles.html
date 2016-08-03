@@ -2,17 +2,17 @@
   <ion-content>
 
 	<div class="card">
-		<ion-item class="item item-avatar" href="#/app/profile/{{profilelist.id}}"> <img ng-src="xx">
-		<h2>孙悟空 (孙氏宗谱 第 一  世)</h2>
-		<p>妻子 ( 琪琪 ) </p>
-		<p>膝下共  18  位子孙</p>
+		<ion-item class="item item-avatar" href="#/app/profile/{{profiles.results.id}}"> <img ng-src="{{profiles.results.mInfo.pic}}">
+		<h2>{{profiles.results.fullName}} ({{profiles.results.surname}}氏宗谱 第 {{profiles.results.generations}}  世代)</h2>
+		<p>妻子 (    {{profiles.results.wifeNames}}  ) </p>
+		<p>膝下共   {{profiles.results.posteritys}}  位子孙</p>
 		</ion-item>
 	</div>
 	  
     <ion-list>
-      <ion-item ng-repeat="profilelist in profiles.results" class="item item-avatar" href="#/app/profile/{{profilelist.id}}">
+      <ion-item ng-repeat="profilelist in profiles.results.cInfos" class="item item-avatar" href="#/app/profile/{{profilelist.id}}">
 		   <img ng-src="{{profilelist.pic}}">
-		   <h2>姓名: {{profilelist.name}}</h2>
+		   <h2>姓名: {{profilelist.name}}	 &nbsp; &nbsp;( {{profilelist.relation}} )</h2>
 		  <p>简介: ({{profilelist.introduction}})</p>
       </ion-item>
     </ion-list>

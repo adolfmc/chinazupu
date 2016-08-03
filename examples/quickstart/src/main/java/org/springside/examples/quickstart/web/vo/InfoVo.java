@@ -5,7 +5,7 @@ import java.util.List;
 import org.springside.examples.quickstart.entity.Task;
 
 public class InfoVo {
-	
+
 	// me
 	private Task mInfo;
 	// wifes
@@ -37,13 +37,18 @@ public class InfoVo {
 		this.cInfos = cInfos;
 	}
 
-//	private String surname;
-//	private String fullName;
-//	private String generations;
-//	private String posteritys;
+	// private String surname;
+	// private String fullName;
+	// private String generations;
+	private String posteritys;
+	private String wifeNames;
+
+	public Long getId() {
+		return mInfo.getId();
+	}
 
 	public String getSurname() {
-		return mInfo.getName().substring(0);
+		return mInfo.getName().substring(0, 1);
 	}
 
 	public String getFullName() {
@@ -55,8 +60,18 @@ public class InfoVo {
 	}
 
 	public String getPosteritys() {
-		return null;
+		return posteritys;
 	}
-	
-	
+
+	public void setPosteritys(String posteritys) {
+		this.posteritys = posteritys;
+	}
+
+	public String getWifeNames() {
+		return wifeNames;
+	}
+
+	public void setWifeNames(String wifeNames) {
+		this.wifeNames = wifeNames;
+	}
 }
