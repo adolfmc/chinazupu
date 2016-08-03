@@ -27,7 +27,7 @@ public abstract class IdEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "generator")
-	@TableGenerator(name = "generator", table = "CZUPU_SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_VALUE", pkColumnValue = "CZUPU_SEQ", allocationSize = 1)
+	@TableGenerator(name = "generator", table = "CZP_SEQUENCE", pkColumnName = "SEQ_NAME", valueColumnName = "SEQ_VALUE", pkColumnValue = "CZUPU_SEQ", allocationSize = 1)
 	public Long getId() {
 		return id;
 	}

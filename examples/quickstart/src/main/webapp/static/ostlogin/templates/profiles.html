@@ -4,7 +4,7 @@
 	<div class="card">
 		<ion-item class="item item-avatar" href="#/app/profile/{{profiles.results.id}}"> <img ng-src="{{profiles.results.mInfo.pic}}">
 		<h2>{{profiles.results.fullName}} ({{profiles.results.surname}}氏宗谱 第 {{profiles.results.generations}}  世代)</h2>
-		<p>妻子 (    {{profiles.results.wifeNames}}  ) </p>
+		<p>{{profiles.results.wifeOrHasbandNames}}</p>
 		<p>膝下共   {{profiles.results.posteritys}}  位子孙</p>
 		</ion-item>
 	</div>
@@ -16,5 +16,6 @@
 		  <p>简介: ({{profilelist.introduction}})</p>
       </ion-item>
     </ion-list>
+    
   </ion-content>
 </ion-view>

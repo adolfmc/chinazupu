@@ -105,7 +105,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 })
 
 .controller('ProfileCtrl', function($http, $scope, $stateParams , Profiles) {
-	 $http.post('http://localhost:8001/quickstart/task/getTasksById',{id:$stateParams.profileId}).success(function(data){
+	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:$stateParams.profileId}).success(function(data){
 		 console.log('ProfilesCtrl funtion success...');
 		 $scope.profile  = data;
 		 

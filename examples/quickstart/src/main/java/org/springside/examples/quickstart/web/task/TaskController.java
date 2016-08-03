@@ -121,25 +121,17 @@ public class TaskController {
 		Task me = taskService.getTask(pid);
 		List<Task> childs = taskService.getTasksByParent(pid, me.getClanId());
 		List<Task> childscount = taskService.getChildsByCode(me.getCode());
-		List<Task> wifes = taskService.getInfosByPidAndRelationOrderByIdDesc(pid,"夫妻");
 		info.setmInfo(me);
 		info.setcInfos(childs);
 
+		List<Task> wifes = taskService.getInfosByPidAndRelationOrderByIdDesc(pid, "夫妻");
 		if (pid == 0) {
 			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
 		} else {
 			info.setPosteritys(String.valueOf(childscount.size()));
 		}
 
-		StringBuffer wifesName = new StringBuffer(5);
-		if (!wifes.isEmpty()) {
-			wifesName.append(",");
-			for (Task task : wifes) {
-				wifesName.append(task.getName());
-			}
-			
-			info.setWifeNames(wifesName.toString().substring(1));
-		}
+		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(pid));
 
 		result.setResults(info);
 		return result;
@@ -159,13 +151,14 @@ public class TaskController {
 
 	@ResponseBody
 	@RequestMapping(value = "getTasksById")
-	public Result getTask(Long id){
-		InfoVo info =new InfoVo();
+	public Result getTask(Long id) {
+		InfoVo info = new InfoVo();
 		Result result = Result.getInstance();
 		info.setmInfo(taskService.getTask(id));
 		result.setResults(info);
 		return result;
 	}
+
 	/**
 	 * 取出Shiro中的当前用户Id.
 	 */

@@ -19,8 +19,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.examples.quickstart.entity.Clan;
 import org.springside.examples.quickstart.entity.Task;
+import org.springside.examples.quickstart.entity.WifeAHusBd;
 import org.springside.examples.quickstart.repository.ClanDao;
 import org.springside.examples.quickstart.repository.TaskDao;
+import org.springside.examples.quickstart.repository.WifeAHusBdDao;
 import org.springside.examples.quickstart.util.CodeGenerator;
 import org.springside.examples.quickstart.web.vo.Result;
 import org.springside.modules.persistence.DynamicSpecifications;
@@ -36,22 +38,54 @@ public class TaskService {
 	private TaskDao taskDao;
 
 	@Autowired
+	private WifeAHusBdDao wifeAHusBdDao;
+
+	@Autowired
 	private ClanDao clanDao;
 
-	public List<Task> getInfosByPidAndRelationOrderByIdDesc(Long pid,String relation){
+	public String getWifeOrHusBandsNames(Long id) {
+		Task me = taskDao.findOne(id);
+
+		StringBuffer wifesName = new StringBuffer(5);
+		if ("男".equals(me.getGender())) {
+			List<WifeAHusBd> whs = wifeAHusBdDao.findByHusbandId(id);
+			wifesName.append("妻子  ( ");
+			for (WifeAHusBd wifeAHusBd : whs) {
+				wifesName.append(wifeAHusBd.getWife().getName() + " ");
+			}
+
+			if (whs.isEmpty()) {
+				wifesName.append("未成家");
+			}
+
+		} else if ("女".equals(me.getGender())) {
+			List<WifeAHusBd> whs = wifeAHusBdDao.findByWifeId(id);
+			wifesName.append("丈夫  ( ");
+			for (WifeAHusBd wifeAHusBd : whs) {
+				wifesName.append(wifeAHusBd.getHusband().getName() + " ");
+			}
+			if (whs.isEmpty()) {
+				wifesName.append("未成家");
+			}
+
+		}
+		wifesName.append(" ) ");
+		return wifesName.toString();
+	}
+
+	public List<Task> getInfosByPidAndRelationOrderByIdDesc(Long pid, String relation) {
 		return taskDao.findByParentsAndRelationOrderByIdDesc(pid, relation);
 	}
-	
-	public List<Task> getChildsByCode(String code){
+
+	public List<Task> getChildsByCode(String code) {
 		return taskDao.findByCodeStartingWith(code);
 	}
-	
+
 	public Task getTask(Long id) {
 		return taskDao.findOne(id);
 	}
-	
-	public Result saveTask(Task entity) {
 
+	public Result saveTask(Task entity) {
 		Result result = Result.getInstance();
 		if (entity.getParents() == 0L) {
 			if (getTasksByParent(0L, entity.getClanId()).isEmpty() == false) {
@@ -66,6 +100,18 @@ public class TaskService {
 				entity.setCode(getNextChildCodeByPid(entity.getParents()));
 				clanDao.save(clan);
 			}
+		}
+
+		if ("夫妻".equals(entity.getGenerations()) && "男".equals(entity.getGender())) {
+			WifeAHusBd wh = new WifeAHusBd();
+			wh.setHusband(entity);
+			wh.setWife(taskDao.findOne(entity.getParents()));
+			wifeAHusBdDao.save(wh);
+		} else if ("夫妻".equals(entity.getGenerations()) && "女".equals(entity.getGender())) {
+			WifeAHusBd wh = new WifeAHusBd();
+			wh.setHusband(taskDao.findOne(entity.getParents()));
+			wh.setWife(entity);
+			wifeAHusBdDao.save(wh);
 		}
 
 		taskDao.save(entity);

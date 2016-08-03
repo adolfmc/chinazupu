@@ -10,8 +10,18 @@ public class InfoVo {
 	private Task mInfo;
 	// wifes
 	private List<Task> wInfos;
+	// hasbands
+	private List<Task> hInfos;
 	// childrens
 	private List<Task> cInfos;
+
+	public List<Task> gethInfos() {
+		return hInfos;
+	}
+
+	public void sethInfos(List<Task> hInfos) {
+		this.hInfos = hInfos;
+	}
 
 	public Task getmInfo() {
 		return mInfo;
@@ -41,7 +51,7 @@ public class InfoVo {
 	// private String fullName;
 	// private String generations;
 	private String posteritys;
-	private String wifeNames;
+	private String wifeOrHasbandNames;
 
 	public Long getId() {
 		return mInfo.getId();
@@ -67,11 +77,11 @@ public class InfoVo {
 		this.posteritys = posteritys;
 	}
 
-	public String getWifeNames() {
-		return wifeNames;
+	public String getWifeOrHasbandNames() {
+		return wifeOrHasbandNames;
 	}
 
-	public void setWifeNames(String wifeNames) {
-		this.wifeNames = wifeNames;
+	public void setWifeOrHasbandNames(String wifeOrHasbandNames) {
+		this.wifeOrHasbandNames = wifeOrHasbandNames;
 	}
 }

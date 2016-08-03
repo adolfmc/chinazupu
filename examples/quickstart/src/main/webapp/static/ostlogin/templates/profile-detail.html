@@ -6,11 +6,13 @@
   <div class="item item-avatar">
     <img src="{{profile.results.mInfo.pic}}">
     <h2>{{profile.results.fullName}}</h2>
-    <p>({{profile.results.surname}}氏宗谱 第 {{profile.results.generations}}  世代)</p>
+    <p>{{profile.results.surname}}氏宗谱 第 {{profile.results.generations}}  世代</p>
+    <p>{{profile.results.wifeOrHasbandNames}} &nbsp;&nbsp;&nbsp;&nbsp;膝下共   {{profile.results.posteritys}}  位子孙</p>
+    <p></p>
   </div>
 
   <div class="item item-body">
-    <img class="full-image" src="{{profile.results.mInfo.pic}}">
+    <img  src="{{profile.results.mInfo.pic}}" >
     <p>
       {{profile.results.mInfo.introduction}}
     </p>
@@ -21,10 +23,6 @@
 	<a class="tab-item" href="#/app/add/{{profile.results.mInfo.id}}"> <i class="icon ion-chatbox"></i> Comment</a>
     <a class="tab-item" href="#"> <i class="icon ion-share"></i>Share</a>
   </div>
-
-
-
-
 
 </div>
 
