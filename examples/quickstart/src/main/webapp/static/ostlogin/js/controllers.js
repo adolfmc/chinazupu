@@ -29,6 +29,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 				console.log('login user clanId = '+dbuser.clanId);
 				$cookieStore.put("loginid", dbuser.id);
 				$cookieStore.put("loginPid", "xcccc");
+				$cookieStore.put("clanId", dbuser.clanId);
 				var lid = $cookieStore.get("loginid");
 				
 				//judgment infos size
@@ -129,9 +130,12 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	
 	//set uid
 	var lid = $cookieStore.get("loginid");
+	var clanId = $cookieStore.get("clanId");
+	console.log("add controller clanId ="+clanId)
 	if(id==0){
 	   	  $scope.newTask = {
 	   			  parents:0,
+	   			  clanId:clanId,
 	   			  pName:'宗族',
 	   			  relation: '宗族',
 	   			  userId: lid
@@ -145,6 +149,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			                        ]; 
 			 $scope.newTask = {
 					 parents:data.results.id,
+					 clanId:clanId,
 					 pName:data.results.fullName,
 					 relation: '子女'
 			 };
