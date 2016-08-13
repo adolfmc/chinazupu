@@ -1,26 +1,26 @@
-<ion-view view-title="Profile">
+<ion-view view-title="info">
   <ion-content>
 
 <div class="list card">
 
   <div class="item item-avatar">
-    <img src="{{profile.results.mInfo.pic}}">
-    <h2>{{profile.results.fullName}}</h2>
-    <p>{{profile.results.surname}}氏宗谱 第 {{profile.results.generations}}  世代</p>
-    <p>{{profile.results.wifeOrHasbandNames}} &nbsp;&nbsp;&nbsp;&nbsp;膝下共   {{profile.results.posteritys}}  位子孙</p>
+    <img src="{{info.results.mInfo.pic}}">
+    <h2>{{info.results.fullName}}</h2>
+    <p>{{info.results.surname}}氏宗谱 第 {{info.results.generations}}  世代</p>
+    <p>{{info.results.wifeOrHasbandNames}} &nbsp;&nbsp;&nbsp;&nbsp;膝下共   {{info.results.posteritys}}  位子孙</p>
     <p></p>
   </div>
 
   <div class="item item-body">
-    <img  src="{{profile.results.mInfo.pic}}" >
+    <img  src="{{info.results.mInfo.pic}}" >
     <p>
-      {{profile.results.mInfo.introduction}}
+      {{info.results.mInfo.introduction}}
     </p>
   </div>
 
   <div class="item tabs tabs-secondary tabs-icon-left">
     <a class="tab-item" href="#"> <i class="icon ion-thumbsup"></i> Like </a>
-	<a class="tab-item" href="#/app/add/{{profile.results.mInfo.id}}"> <i class="icon ion-chatbox"></i> Comment</a>
+	<a class="tab-item" href="#/app/add/{{info.results.mInfo.id}}"> <i class="icon ion-chatbox"></i> Comment</a>
     <a class="tab-item" href="#"> <i class="icon ion-share"></i>Share</a>
   </div>
 

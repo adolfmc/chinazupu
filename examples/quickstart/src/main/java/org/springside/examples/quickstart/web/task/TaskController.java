@@ -114,29 +114,54 @@ public class TaskController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "getTasksByParent")
-	public Result getTasksByParent(Long pid, Long lid, Long clanId) {
+	@RequestMapping(value = "getTasksById")
+	public Result getTasksByParent(Long id, Long lid, Long clanId) {
 		Result result = Result.getInstance();
 		InfoVo info = new InfoVo();
-		Task me = taskService.getTask(pid);
-		List<Task> childs = taskService.getTasksByParent(pid, me.getClanId());
+		Task me = taskService.getTask(id);
+		List<Task> childs = taskService.getTasksByIdAndClanId(id, me.getClanId());
 		List<Task> childscount = taskService.getChildsByCode(me.getCode());
 		info.setmInfo(me);
 		info.setcInfos(childs);
 
-		List<Task> wifes = taskService.getInfosByPidAndRelationOrderByIdDesc(pid, "夫妻");
-		if (pid == 0) {
+		List<Task> wifes = taskService.getInfosByPidAndRelationOrderByIdDesc(id, "夫妻");
+		if (id == 0) {
 			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
 		} else {
 			info.setPosteritys(String.valueOf(childscount.size()));
 		}
 
-		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(pid));
+		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));
 
 		result.setResults(info);
 		return result;
 	}
 
+	
+	@ResponseBody
+	@RequestMapping(value = "getIndexTasks")
+	public Result getIndexTask(Long id,  Long clanId) {
+		Result result = Result.getInstance();
+		InfoVo info = new InfoVo();
+		Task me = taskService.getTask(id);
+		List<Task> childs = taskService.getTasksByIdAndClanId(id, me.getClanId());
+		List<Task> childscount = taskService.getChildsByCode(me.getCode());
+		info.setmInfo(me);
+		info.setcInfos(childs);
+
+		List<Task> wifes = taskService.getInfosByPidAndRelationOrderByIdDesc(id, "夫妻");
+		if (id == 0) {
+			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
+		} else {
+			info.setPosteritys(String.valueOf(childscount.size()));
+		}
+
+		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));
+
+		result.setResults(info);
+		return result;
+	}
+	
 	/**
 	 * 所有RequestMapping方法调用前的Model准备方法, 实现Struts2
 	 * Preparable二次部分绑定的效果,先根据form的id从数据库查出Task对象,再把Form提交的内容绑定到该对象上。
@@ -150,11 +175,25 @@ public class TaskController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "getTasksById")
+	@RequestMapping(value = "getTaskById")
 	public Result getTask(Long id) {
-		InfoVo info = new InfoVo();
 		Result result = Result.getInstance();
-		info.setmInfo(taskService.getTask(id));
+		InfoVo info = new InfoVo();
+		Task me = taskService.getTask(id);
+		List<Task> childs = taskService.getTasksByIdAndClanId(id, me.getClanId());
+		List<Task> childscount = taskService.getChildsByCode(me.getCode());
+		info.setmInfo(me);
+		info.setcInfos(childs);
+
+		List<Task> wifes = taskService.getInfosByPidAndRelationOrderByIdDesc(id, "夫妻");
+		if (id == 0) {
+			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
+		} else {
+			info.setPosteritys(String.valueOf(childscount.size()));
+		}
+
+		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));
+
 		result.setResults(info);
 		return result;
 	}

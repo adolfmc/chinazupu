@@ -121,7 +121,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
     })
     
     .state('app.profiles', {
-      url: '/profiles/:clanId',
+      url: '/profiles/:IdAndClanId',
       cache:'false', 
       views: {
         'menuContent': {
@@ -132,7 +132,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
     })
 
   .state('app.profile', {
-    url: '/profile/:profileId',
+    url: '/profile/:IdAndPid',
     cache:'false', 
     views: {
       'menuContent': {

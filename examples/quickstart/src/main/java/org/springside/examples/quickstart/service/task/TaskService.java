@@ -57,7 +57,7 @@ public class TaskService {
 			if (whs.isEmpty()) {
 				wifesName.append("未成家");
 			}
-
+			wifesName.append(" ) ");
 		} else if ("女".equals(me.getGender())) {
 			List<WifeAHusBd> whs = wifeAHusBdDao.findByWifeId(id);
 			wifesName.append("丈夫  ( ");
@@ -67,9 +67,9 @@ public class TaskService {
 			if (whs.isEmpty()) {
 				wifesName.append("未成家");
 			}
+			wifesName.append(" ) ");
 
 		}
-		wifesName.append(" ) ");
 		return wifesName.toString();
 	}
 
@@ -88,7 +88,7 @@ public class TaskService {
 	public Result saveTask(Task entity) {
 		Result result = Result.getInstance();
 		if (entity.getParents() == 0L) {
-			if (getTasksByParent(0L, entity.getClanId()).isEmpty() == false) {
+			if (getTasksByIdAndClanId(0L, entity.getClanId()).isEmpty() == false) {
 				entity.setCode("000");
 				result.setSuccess(false);
 				result.setMessage("顶级宗族已建立.");
@@ -139,8 +139,8 @@ public class TaskService {
 		return (List<Task>) taskDao.findAll();
 	}
 
-	public List<Task> getTasksByParent(Long pid, Long clanId) {
-		return taskDao.findByParentsAndClanIdAndIdNotOrderByIdDesc(pid, clanId, pid);
+	public List<Task> getTasksByIdAndClanId(Long id, Long clanId) {
+		return taskDao.findByParentsAndClanIdAndIdNotOrderByIdDesc(id, clanId, id);
 	}
 
 	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {

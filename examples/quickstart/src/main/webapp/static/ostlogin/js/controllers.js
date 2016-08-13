@@ -32,13 +32,13 @@ angular.module('starter.controllers',  ['ngCookies'] )
 				var lid = $cookieStore.get("loginid");
 				
 				//judgment infos size
-				$http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:0,lid: lid,clanId:dbuser.clanId}).success(function(data){
+				$http.post('http://localhost:8001/quickstart/task/getIndexTasks',{id:0,clanId:dbuser.clanId}).success(function(data){
 					console.log('>>>length '+data.results.length );
 					console.log('>>>clanId '+dbuser.clanId);
 					if(data.results.length==0){
 						 $location.path('/app/noneinfo');
 					 }else{
-						 $location.path('/app/profiles/'+dbuser.clanId);
+						 $location.path('/app/profiles/'+"0_"+dbuser.clanId);
 					 }
 				 
 				})
@@ -89,29 +89,36 @@ angular.module('starter.controllers',  ['ngCookies'] )
 .controller('ProfilesCtrl', function($http , $scope , Profiles , $cookieStore, $stateParams) {
 	 console.log('profilesCtrl begain...');
 	 var lid = $cookieStore.get("loginid");
-	 var clanId = $stateParams.clanId;
-	 console.info('cookieStore >> '+lid);
-	 console.info('clanId >> '+clanId);
+	 var IdAndClanId = $stateParams.IdAndClanId;
+	 var Id = IdAndClanId.split("_")[0];
+	 var ClanId = IdAndClanId.split("_")[1];
 	 
-	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:0,lid: lid, clanId:clanId}).success(function(data){
+	 console.info('IdAndClanId >> '+IdAndClanId);
+	 
+	 $http.post('http://localhost:8001/quickstart/task/getIndexTasks',{id:Id,clanId:ClanId}).success(function(data){
 		 console.log('ProfilesCtrl funtion success...');
-		 $scope.profiles  = data;
-		 
-		 
-    	 console.log('getTasksByParent >> '+ data.length);
+		 $scope.infos  = data;
      });
 	 
 	 console.log('profilesCtrl end...');
 })
 
-.controller('ProfileCtrl', function($http, $scope, $stateParams , Profiles) {
-	 $http.post('http://localhost:8001/quickstart/task/getTasksByParent',{pid:$stateParams.profileId}).success(function(data){
-		 console.log('ProfilesCtrl funtion success...');
-		 $scope.profile  = data;
-		 
-		 
-    	 console.log('getTasksByParent >> '+ data.length);
-     });
+.controller('ProfileCtrl', function($location, $http, $scope, $stateParams , Profiles) {
+	 var IdAndPid=$stateParams.IdAndPid
+	 var id= IdAndPid.split("_")[0];
+	 var pid= IdAndPid.split("_")[1];
+	 console.log(IdAndPid);
+	 console.log(id);
+	 console.log(pid);
+	 if (id == pid) {
+		 $http.post('http://localhost:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
+			 console.log('ProfilesCtrl funtion success...');
+			 $scope.info  = data;
+		 });
+	 }else{
+		 $location.path('/app/profiles/' +id+ "_0");
+	 }
+	
 })
 
 .controller('AddCtrl', function($scope , $stateParams , $cookieStore) {
