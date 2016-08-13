@@ -97,7 +97,6 @@ public class TaskService {
 				Clan clan = new Clan();
 				clan.setBranch(UUID.randomUUID().toString());
 				clan.setSurname(entity.getName().substring(1));
-				entity.setCode(getNextChildCodeByPid(entity.getParents()));
 				clanDao.save(clan);
 			}
 		}
@@ -114,6 +113,7 @@ public class TaskService {
 			wifeAHusBdDao.save(wh);
 		}
 
+		entity.setCode(getNextChildCodeByPid(entity.getParents()));
 		taskDao.save(entity);
 		result.setResults(entity);
 		return result;

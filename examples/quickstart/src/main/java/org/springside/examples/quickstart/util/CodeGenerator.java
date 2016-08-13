@@ -22,10 +22,14 @@ public class CodeGenerator {
 	
 	
 	public static String getNext(String value){
+		String vn=value;
+		if(value.length()>3){
+			vn=value.substring(value.length()-3,value.length());
+		}
 		StringBuffer sb=new StringBuffer(3);
-		String v3 = value.substring(2, 3);
-		String v2 = value.substring(1, 2);
-		String v1 = value.substring(0, 1);
+		String v3 = vn.substring(2, 3);
+		String v2 = vn.substring(1, 2);
+		String v1 = vn.substring(0, 1);
 		
 		String v3n=null;
 		String v2n=null;
@@ -46,12 +50,14 @@ public class CodeGenerator {
 			v2n=v2;
 			v3n=cp[findPosition(v3.charAt(0))+1]+"";
 		}
-		
+		if(value.length()>3){
+			sb.append(value.substring(0,value.length()-3));
+		}
 		return sb.append(v1n).append(v2n).append(v3n).toString();
 	}
 	
 	public static String getChildNext(String v){
-		return v+getNext("000");
+		return getNext(v);
 	}
 	
 	public CodeGenerator() {
@@ -59,7 +65,7 @@ public class CodeGenerator {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(getChildNext("000"));
+		System.out.println(getChildNext("000123123"));
 		System.out.println(getNext("0aZ"));
 		System.out.println(CodeGenerator.findPosition('Z'));
 		System.out.println("123".substring(0,1));
