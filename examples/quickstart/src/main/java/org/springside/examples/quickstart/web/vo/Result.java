@@ -3,7 +3,7 @@ package org.springside.examples.quickstart.web.vo;
 public class Result {
 	private String message;
 	private boolean success = true;
-	private Object results = new Object();
+	private Object results = null;
 
 	public Result() {
 	}

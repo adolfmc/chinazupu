@@ -115,6 +115,7 @@ public class TaskService {
 		}
 
 		taskDao.save(entity);
+		result.setResults(entity);
 		return result;
 	}
 

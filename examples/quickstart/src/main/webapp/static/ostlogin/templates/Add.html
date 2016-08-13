@@ -8,8 +8,7 @@
       <label class="item item-input">
         <span class="input-label">姓名</span>
         <input ng-model="newTask.name" type="text">
-        <input ng-model="newTask.userId" type="text">
-        <input ng-model="newTask.clanId" type="text">
+        <input ng-model="newTask.parents" type="text">
       </label>
       <label class="item item-input">
         <span class="input-label">分支</span>
@@ -38,16 +37,8 @@
 
       <div class="list">
         <div class="item item-divider"> 
-          	父级: {{ newTask.parents }}
+          	父级: {{ newTask.pName }}
         </div>
-        
-        <ion-radio ng-repeat="item in parentList"
-                   ng-value="item.value"
-                   ng-model="newTask.parents"
-                   ng-change="parentChange(item)"
-                   name="parent">
-          {{ item.text }}
-        </ion-radio>
         
          <div class="item item-divider"> 
           	关系: {{ newTask.relation }}

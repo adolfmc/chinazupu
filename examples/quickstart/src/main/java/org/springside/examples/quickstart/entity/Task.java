@@ -36,8 +36,18 @@ public class Task extends IdEntity {
 	private String relation;
 	private String introduction;
 	private String code;
+	private String pName;
 
 	private ArrayList<Task> parentts = new ArrayList<Task>();
+
+	@Transient
+	public String getpName() {
+		return pName;
+	}
+
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
 
 	@Transient
 	public ArrayList<Task> getParentts() {

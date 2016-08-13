@@ -90,7 +90,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
   })
 
     .state('app.add', {
-      url: '/add/:Nid',
+      url: '/add/:id',
       cache:'false', 
       views: {
         'menuContent': {

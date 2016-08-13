@@ -68,11 +68,13 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	  console.log(newTask);
 
 	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(data){
+		  console.log(data);
 		  if(data.success==false){
 			  // An alert dialog
 			  $scope.showAlert(data.message);	
-			  $location.path('/app/profiles');   
+			  $location.path('/app/profiles/'+ "0_0");   
 		  }else{
+			  $location.path('/app/profiles/' +data.results.parents+ "_0");
 			  console.log('createContact function success...'+data);
 		  }
 	  });
@@ -121,36 +123,33 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	
 })
 
-.controller('AddCtrl', function($scope , $stateParams , $cookieStore) {
-	var Nid = $stateParams.Nid;
-	console.log('add ctrl .. Nid = '+Nid);
+.controller('AddCtrl', function($http ,$scope , $stateParams , $cookieStore) {
+	var id = $stateParams.id;
+	console.log('add ctrl .. id = '+id);
 	
 	//set uid
 	var lid = $cookieStore.get("loginid");
-	
-	
-	if(Nid==0){
+	if(id==0){
 	   	  $scope.newTask = {
-	   			  parents: '0',
+	   			  parents:0,
+	   			  pName:'宗族',
 	   			  relation: '宗族',
 	   			  userId: lid
 	   	  };
 	}else{
-		 $scope.parentList = [
-	          { text: "Backbone", value: "1" },
-	          { text: "Angular", value: "2" },
-	          { text: "Ember", value: "3" },	
-	          { text: "Knockout", value: "4" }
-	        ];
-	   	  $scope.relationList = [
-	          { text: "夫妻", value: "夫妻" },
-	          { text: "子女", value: "子女" },
-	          { text: "父母", value: "父母" }
-	       ]; 
-	   	  $scope.newTask = {
-	   			  parents: '1',
-	   			  relation: '宗族'
-	   	  };
+		 $http.post('http://localhost:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
+			 $scope.relationList = [
+			                        { text: "夫妻", value: "夫妻" },
+			                        { text: "子女", value: "子女" },
+			                        { text: "父母", value: "父母" }
+			                        ]; 
+			 $scope.newTask = {
+					 parents:data.results.id,
+					 pName:data.results.fullName,
+					 relation: '子女'
+			 };
+		 });
+		 
 	}
 })
 
