@@ -214,6 +214,11 @@ public class TaskController {
 	@RequestMapping(value = "remove")
 	public Result remove(Long id) {
 		Task me = taskService.getTask(id);
+		List<Task> childscount = taskService.getChildsByCode(me.getCode());
+		for (Task task : childscount) {
+			task.setStatus("00000009");
+			taskService.saveTask(task);
+		}
 		me.setStatus("00000009");
 		return taskService.saveTask(me);
 	}
