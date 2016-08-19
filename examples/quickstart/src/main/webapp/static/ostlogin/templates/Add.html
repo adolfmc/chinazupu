@@ -19,10 +19,16 @@
         <span class="input-label">年龄</span>
         <input ng-model="newTask.age" type="text">
       </label>
-      <label class="item item-input">
-        <span class="input-label">性别</span>
-        <input ng-model="newTask.gender" type="text">
-      </label>
+      
+      <label class="item item-input item-select">
+		<div class="input-label">性别</div> 
+		<select ng-model="newTask.gender" >
+			<option>男</option>
+			<option>女</option>
+			<option>保密</option>
+	    </select>
+	  </label>
+      
 	  <label class="item item-input">
         <span class="input-label">生辰</span>
         <input ng-model="newTask.birthday" type="text">
@@ -40,7 +46,16 @@
         <div class="item item-divider"> 
           	父级: {{ newTask.pName }}
         </div>
-        
+      <label class="item item-input item-select">
+		<div class="input-label">关系</div> 
+		<select ng-model="newTask.relation" >
+			<option>夫妻</option>
+			<option>子女</option>
+			<option>父母</option>
+	    </select>
+	  </label>
+	          
+      <!--   
          <div class="item item-divider"> 
           	关系: {{ newTask.relation }}
         </div>
@@ -54,7 +69,8 @@
         </ion-radio>
         
       </div>
-
+ 	 -->
+	
 	<button class="button button-full button-positive" ng-click="createContact(newTask)">Create</button>
     </div>	
   </ion-content>

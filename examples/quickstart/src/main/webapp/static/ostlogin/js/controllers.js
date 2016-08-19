@@ -140,6 +140,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	if(id==0){
 	   	  $scope.newTask = {
 	   			  parents:0,
+	   			  gender:'男',
 	   			  clanId:clanId,
 	   			  pName:'宗族',
 	   			  relation: '宗族',
@@ -153,6 +154,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			                        { text: "父母", value: "父母" }
 			                        ]; 
 			 $scope.newTask = {
+					 gender:'男',
 					 parents:data.results.id,
 					 clanId:clanId,
 					 pName:data.results.fullName,
