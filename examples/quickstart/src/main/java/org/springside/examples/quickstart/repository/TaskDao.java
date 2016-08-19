@@ -23,11 +23,11 @@ public interface TaskDao extends PagingAndSortingRepository<Task, Long>, JpaSpec
 	@Query("delete from Task task where task.user.id=?1")
 	void deleteByUserId(Long id);
 
-	List<Task> findByParentsAndClanIdAndIdNotOrderByIdDesc(Long pid, Long clanId,Long parentId);
+	List<Task> findByParentsAndClanIdAndIdNotAndStatusNotOrderByIdDesc(Long pid, Long clanId,Long parentId,String status);
 
-	List<Task> findByParentsOrderByIdDesc(Long pid);
+	List<Task> findByParentsAndStatusNotOrderByIdDesc(Long pid,String status);
 
-	List<Task> findByCodeStartingWith(String code);
+	List<Task> findByCodeStartingWithAndStatusNot(String code,String status);
 
-	List<Task> findByParentsAndRelationOrderByIdDesc(Long pid, String relation);
+	List<Task> findByParentsAndRelationAndStatusNotOrderByIdDesc(Long pid, String relation,String status);
 }

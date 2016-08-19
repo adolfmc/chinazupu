@@ -137,10 +137,9 @@ public class TaskController {
 		return result;
 	}
 
-	
 	@ResponseBody
 	@RequestMapping(value = "getIndexTasks")
-	public Result getIndexTask(Long id,  Long clanId) {
+	public Result getIndexTask(Long id, Long clanId) {
 		Result result = Result.getInstance();
 		InfoVo info = new InfoVo();
 		Task me = taskService.getTask(id);
@@ -153,7 +152,7 @@ public class TaskController {
 		if (id == 0) {
 			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
 		} else {
-			info.setPosteritys(String.valueOf(childscount.size()-1));
+			info.setPosteritys(String.valueOf(childscount.size() - 1));
 		}
 
 		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));
@@ -161,7 +160,7 @@ public class TaskController {
 		result.setResults(info);
 		return result;
 	}
-	
+
 	/**
 	 * 所有RequestMapping方法调用前的Model准备方法, 实现Struts2
 	 * Preparable二次部分绑定的效果,先根据form的id从数据库查出Task对象,再把Form提交的内容绑定到该对象上。
@@ -189,13 +188,34 @@ public class TaskController {
 		if (id == 0) {
 			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
 		} else {
-			info.setPosteritys(String.valueOf(childscount.size()-1));
+			info.setPosteritys(String.valueOf(childscount.size() - 1));
 		}
 
 		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));
 
 		result.setResults(info);
 		return result;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "edit")
+	public Result edit(Long id) {
+		Result result = Result.getInstance();
+		InfoVo info = new InfoVo();
+		Task me = taskService.getTask(id);
+		Task t = taskService.getTask(me.getParents());
+		me.setpName(t.getName());
+		info.setmInfo(me);
+		result.setResults(info);
+		return result;
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "remove")
+	public Result remove(Long id) {
+		Task me = taskService.getTask(id);
+		me.setStatus("00000009");
+		return taskService.saveTask(me);
 	}
 
 	/**

@@ -113,20 +113,11 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	 console.log(IdAndPid);
 	 console.log(id);
 	 console.log(pid);
-	 if (id == pid) {
-		 console.log("id==pid");
-		 $http.post('http://localhost:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
-			 console.log('ProfilesCtrl funtion success...');
-			 $scope.info  = data;
-		 });
-		 //$state.go('app.profile', {IdAndClanId:id+"_0"}, { reload: true });
-	 }else{
-		 console.log("id<>pid");
-		 //$location.path('/app/profiles/' +id+ "_0");
-		 $state.go('app.profiles', {IdAndClanId:id+"_0"}, { reload: true });
-		 console.log("id<>pid "+id);
-	 }
-	
+	 console.log("id==pid");
+	 $http.post('http://localhost:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
+		 console.log('ProfilesCtrl funtion success...');
+		 $scope.info  = data;
+	 });
 })
 
 .controller('AddCtrl', function($http ,$scope , $stateParams , $cookieStore) {
@@ -163,6 +154,32 @@ angular.module('starter.controllers',  ['ngCookies'] )
 		 });
 		 
 	}
+})
+
+.controller('EditCtrl', function($http ,$scope , $stateParams , $cookieStore) {
+	var id = $stateParams.id;
+	console.log('add ctrl .. id = '+id);
+	
+	 $http.post('http://localhost:8001/quickstart/task/edit',{id:id}).success(function(data){
+		 $scope.newTask =data.results.mInfo;
+	 });
+})
+
+.controller('RemoveCtrl', function($http ,$scope , $stateParams , $cookieStore) {
+	 console.log('RemoveCtrl begain...');
+	 var lid = $cookieStore.get("loginid");
+	 var id = $stateParams.id;
+	 
+	 $http.post('http://localhost:8001/quickstart/task/remove',{id:id}).success(function(data){
+		 console.log('RemoveCtrl funtion success...');
+		 $http.post('http://localhost:8001/quickstart/task/getIndexTasks',{id:data.results.mInfo.parents,clanId:'0'}).success(function(data){
+			 console.log('getIndexTasks funtion success...');
+			 $scope.infos  = data;
+	     });
+     });
+	 
+	 
+	 console.log('RemoveCtrl end...');
 })
 
 .controller('DashCtrl', function($scope, $stateParams , Profiles) {

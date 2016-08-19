@@ -37,8 +37,17 @@ public class Task extends IdEntity {
 	private String introduction;
 	private String code;
 	private String pName;
+	private String status;
 
 	private ArrayList<Task> parentts = new ArrayList<Task>();
+	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	@Transient
 	public String getpName() {

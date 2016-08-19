@@ -24,6 +24,7 @@ import org.springside.examples.quickstart.repository.ClanDao;
 import org.springside.examples.quickstart.repository.TaskDao;
 import org.springside.examples.quickstart.repository.WifeAHusBdDao;
 import org.springside.examples.quickstart.util.CodeGenerator;
+import org.springside.examples.quickstart.web.vo.InfoVo;
 import org.springside.examples.quickstart.web.vo.Result;
 import org.springside.modules.persistence.DynamicSpecifications;
 import org.springside.modules.persistence.SearchFilter;
@@ -74,11 +75,11 @@ public class TaskService {
 	}
 
 	public List<Task> getInfosByPidAndRelationOrderByIdDesc(Long pid, String relation) {
-		return taskDao.findByParentsAndRelationOrderByIdDesc(pid, relation);
+		return taskDao.findByParentsAndRelationAndStatusNotOrderByIdDesc(pid, relation,"00000009");
 	}
 
 	public List<Task> getChildsByCode(String code) {
-		return taskDao.findByCodeStartingWith(code);
+		return taskDao.findByCodeStartingWithAndStatusNot(code,"00000009");
 	}
 
 	public Task getTask(Long id) {
@@ -87,40 +88,44 @@ public class TaskService {
 
 	public Result saveTask(Task entity) {
 		Result result = Result.getInstance();
-		if (entity.getParents() == 0L) {
-			if (getTasksByIdAndClanId(0L, entity.getClanId()).isEmpty() == false) {
-				entity.setCode("000");
-				result.setSuccess(false);
-				result.setMessage("顶级宗族已建立.");
-				return result;
-			} else {
-				Clan clan = new Clan();
-				clan.setBranch(UUID.randomUUID().toString());
-				clan.setSurname(entity.getName().substring(1));
-				clanDao.save(clan);
+		InfoVo info = new InfoVo();
+		
+		if (entity.getId() == null) {
+
+			if (entity.getParents() == 0L) {
+				if (getTasksByIdAndClanId(0L, entity.getClanId()).isEmpty() == false) {
+					entity.setCode("000");
+					result.setSuccess(false);
+					result.setMessage("顶级宗族已建立.");
+					return result;
+				} else {
+					Clan clan = new Clan();
+					clan.setBranch(UUID.randomUUID().toString());
+					clan.setSurname(entity.getName().substring(1));
+					clanDao.save(clan);
+				}
+			}
+
+			entity.setCode(getNextChildCodeByPid(entity.getParents()));
+			entity.setStatus("00000000");
+			if ("夫妻".equals(entity.getGenerations()) && "男".equals(entity.getGender())) {
+				WifeAHusBd wh = new WifeAHusBd();
+				wh.setHusband(entity);
+				wh.setWife(taskDao.findOne(entity.getParents()));
+				wifeAHusBdDao.save(wh);
+			} else if ("夫妻".equals(entity.getGenerations()) && "女".equals(entity.getGender())) {
+				WifeAHusBd wh = new WifeAHusBd();
+				wh.setHusband(taskDao.findOne(entity.getParents()));
+				wh.setWife(entity);
+				wifeAHusBdDao.save(wh);
 			}
 		}
-
-		if ("夫妻".equals(entity.getGenerations()) && "男".equals(entity.getGender())) {
-			WifeAHusBd wh = new WifeAHusBd();
-			wh.setHusband(entity);
-			wh.setWife(taskDao.findOne(entity.getParents()));
-			wifeAHusBdDao.save(wh);
-		} else if ("夫妻".equals(entity.getGenerations()) && "女".equals(entity.getGender())) {
-			WifeAHusBd wh = new WifeAHusBd();
-			wh.setHusband(taskDao.findOne(entity.getParents()));
-			wh.setWife(entity);
-			wifeAHusBdDao.save(wh);
-		}
-
-		entity.setCode(getNextChildCodeByPid(entity.getParents()));
-		taskDao.save(entity);
-		result.setResults(entity);
-		return result;
+		info.setmInfo(taskDao.save(entity));
+		return result.setResults(info);
 	}
 
 	public String getNextChildCodeByPid(Long pid) {
-		List<Task> tasks = taskDao.findByParentsOrderByIdDesc(pid);
+		List<Task> tasks = taskDao.findByParentsAndStatusNotOrderByIdDesc(pid,"00000009");
 		String code = null;
 		if (tasks.isEmpty()) {
 			code = taskDao.findOne(pid).getCode() + "000";
@@ -141,7 +146,7 @@ public class TaskService {
 	}
 
 	public List<Task> getTasksByIdAndClanId(Long id, Long clanId) {
-		return taskDao.findByParentsAndClanIdAndIdNotOrderByIdDesc(id, clanId, id);
+		return taskDao.findByParentsAndClanIdAndIdNotAndStatusNotOrderByIdDesc(id, clanId, id,"00000009");
 	}
 
 	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {

@@ -99,6 +99,28 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
         }
       }
     })
+    
+    .state('app.edit', {
+      url: '/edit/:id',
+      cache:'false', 
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/Add.html',
+          controller: 'EditCtrl'
+        }
+      }
+    })
+    
+    .state('app.remove', {
+      url: '/remove/:id',
+      cache:'false', 
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/profiles.html',
+          controller: 'RemoveCtrl'
+        }
+      }
+    })
 
     .state('app.noneinfo', {
       url: '/noneinfo',

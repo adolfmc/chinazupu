@@ -33,8 +33,9 @@ public class Result {
 		return results;
 	}
 
-	public void setResults(Object results) {
+	public Result setResults(Object results) {
 		this.results = results;
+		return this;
 	}
 
 	public static Result getInstance() {
