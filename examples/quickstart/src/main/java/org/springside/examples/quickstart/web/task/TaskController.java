@@ -153,7 +153,7 @@ public class TaskController {
 		if (id == 0) {
 			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
 		} else {
-			info.setPosteritys(String.valueOf(childscount.size()));
+			info.setPosteritys(String.valueOf(childscount.size()-1));
 		}
 
 		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));
@@ -189,7 +189,7 @@ public class TaskController {
 		if (id == 0) {
 			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
 		} else {
-			info.setPosteritys(String.valueOf(childscount.size()));
+			info.setPosteritys(String.valueOf(childscount.size()-1));
 		}
 
 		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));

@@ -123,6 +123,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
     .state('app.profiles', {
       url: '/profiles/:IdAndClanId',
       cache:'false', 
+      reload:true,
       views: {
         'menuContent': {
           templateUrl: 'templates/profiles.html',
@@ -134,6 +135,7 @@ angular.module('starter', ['ionic', 'starter.controllers' , 'starter.services'])
   .state('app.profile', {
     url: '/profile/:IdAndPid',
     cache:'false', 
+    reload:true,
     views: {
       'menuContent': {
         templateUrl: 'templates/profile-detail.html',

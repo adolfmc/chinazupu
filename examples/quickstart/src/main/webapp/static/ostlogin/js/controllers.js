@@ -106,7 +106,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	 console.log('profilesCtrl end...');
 })
 
-.controller('ProfileCtrl', function($location, $http, $scope, $stateParams , Profiles) {
+.controller('ProfileCtrl', function($state, $location, $http, $scope, $stateParams , Profiles) {
 	 var IdAndPid=$stateParams.IdAndPid
 	 var id= IdAndPid.split("_")[0];
 	 var pid= IdAndPid.split("_")[1];
@@ -114,12 +114,17 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	 console.log(id);
 	 console.log(pid);
 	 if (id == pid) {
+		 console.log("id==pid");
 		 $http.post('http://localhost:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
 			 console.log('ProfilesCtrl funtion success...');
 			 $scope.info  = data;
 		 });
+		 //$state.go('app.profile', {IdAndClanId:id+"_0"}, { reload: true });
 	 }else{
-		 $location.path('/app/profiles/' +id+ "_0");
+		 console.log("id<>pid");
+		 //$location.path('/app/profiles/' +id+ "_0");
+		 $state.go('app.profiles', {IdAndClanId:id+"_0"}, { reload: true });
+		 console.log("id<>pid "+id);
 	 }
 	
 })
