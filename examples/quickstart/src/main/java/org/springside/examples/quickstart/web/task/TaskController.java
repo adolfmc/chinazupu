@@ -81,17 +81,6 @@ public class TaskController {
 		return "task/taskForm";
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public Result create(@Valid Task newTask, RedirectAttributes redirectAttributes, String relation, HttpServletRequest request) {
-
-		newTask.setPic("img/150x165/durgesh-soni.png");
-		Result result = taskService.saveTask(newTask);
-		redirectAttributes.addFlashAttribute("message", "创建任务成功");
-
-		return result;
-	}
-
 	@RequestMapping(value = "update/{id}", method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("task", taskService.getTask(id));
@@ -221,6 +210,13 @@ public class TaskController {
 		}
 		me.setStatus("00000009");
 		return taskService.saveTask(me);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "create")
+	public Result create(Task newTask, String relation) {
+		newTask.setPic("img/150x165/durgesh-soni.png");
+		return taskService.saveTask(newTask);
 	}
 
 	/**

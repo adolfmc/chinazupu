@@ -69,14 +69,15 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	  console.log(newTask);
 
 	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(data){
+		  console.log("---------");
 		  console.log(data);
 		  if(data.success==false){
 			  // An alert dialog
 			  $scope.showAlert(data.message);	
 			  $location.path('/app/profiles/'+ "0_0");   
 		  }else{
-			  $location.path('/app/profiles/' +data.results.parents+ "_0");
 			  console.log('createContact function success...'+data);
+			  $location.path('/app/profiles/' +data.results.mInfo.parents+ "_0");
 		  }
 	  });
 	  
@@ -161,6 +162,8 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	console.log('add ctrl .. id = '+id);
 	
 	 $http.post('http://localhost:8001/quickstart/task/edit',{id:id}).success(function(data){
+		 console.log("EditCtrl");
+		 console.log(data);
 		 $scope.newTask =data.results.mInfo;
 	 });
 })
