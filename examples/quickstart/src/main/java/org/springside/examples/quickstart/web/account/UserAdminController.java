@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springside.examples.quickstart.entity.User;
 import org.springside.examples.quickstart.service.account.AccountService;
+import org.springside.examples.quickstart.web.vo.Result;
 
 /**
  * 管理员管理用户的Controller.
@@ -78,5 +79,11 @@ public class UserAdminController {
 	@RequestMapping(value = "getUserByLoginName")
 	public User getUserByLoginName(String loginName){
 		return accountService.findUserByLoginName(loginName);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "create")
+	public Result create(User entity){
+		return accountService.save(entity);
 	}
 }

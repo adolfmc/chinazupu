@@ -84,6 +84,31 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	  console.log('createContact end...');
   };
   
+  
+  
+  $scope.signup = function(user) {
+	  	console.log(user);
+		if(typeof(user)=='undefined'){
+			$scope.showAlert('Please fill username and password to proceed.');	
+			return false;
+		}
+		
+		$http.post('http://localhost:8001/quickstart/admin/user/create', user).success(function(data){
+			  console.log("---------");
+			  console.log(data);
+			  if(data.success==true){
+				  // An alert dialog
+				  $cookieStore.put("loginid", data.results.id);
+				  $location.path('/app/profiles/'+ "0_9");   
+			  }else{
+				  $scope.showAlert(data.message);	
+			  }
+		  });
+		
+	};
+	
+	
+  
 })
 
 .controller('InfoNoneCtrl', function($http , $scope , Profiles , $cookieStore) {

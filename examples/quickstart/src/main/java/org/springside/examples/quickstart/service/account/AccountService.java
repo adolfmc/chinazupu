@@ -19,6 +19,7 @@ import org.springside.examples.quickstart.repository.TaskDao;
 import org.springside.examples.quickstart.repository.UserDao;
 import org.springside.examples.quickstart.service.ServiceException;
 import org.springside.examples.quickstart.service.account.ShiroDbRealm.ShiroUser;
+import org.springside.examples.quickstart.web.vo.Result;
 import org.springside.modules.security.utils.Digests;
 import org.springside.modules.utils.Clock;
 import org.springside.modules.utils.Encodes;
@@ -118,5 +119,18 @@ public class AccountService {
 
 	public void setClock(Clock clock) {
 		this.clock = clock;
+	}
+	
+	public Result save(User entity){
+		Result result = Result.getInstance();
+		
+		if(findUserByLoginName(entity.getLoginName())!=null  ){
+			result.setMessage("登录名已存在!");
+			result.setSuccess(false);
+			return result;
+		}
+		userDao.save(entity);
+		result.setResults(entity);
+		return result;
 	}
 }
