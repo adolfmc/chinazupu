@@ -178,14 +178,8 @@ public class TaskController {
 	@ResponseBody
 	@RequestMapping(value = "remove")
 	public Result remove(Long id) {
-		Task me = taskService.getTask(id);
-		List<Task> childscount = taskService.getChildsByCodeAndClanId(me.getCode(), me.getClanId());
-		for (Task task : childscount) {
-			task.setStatus("00000009");
-			taskService.saveTask(task);
-		}
-		me.setStatus("00000009");
-		return taskService.saveTask(me);
+		taskService.removeById(id);
+		return Result.getInstance();
 	}
 
 	@ResponseBody

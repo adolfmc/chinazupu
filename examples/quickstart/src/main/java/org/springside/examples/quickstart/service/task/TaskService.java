@@ -38,6 +38,7 @@ import org.springside.modules.persistence.SearchFilter.Operator;
 @Transactional
 public class TaskService {
 
+	@Autowired
 	private TaskDao taskDao;
 
 	@Autowired
@@ -203,9 +204,17 @@ public class TaskService {
 		return spec;
 	}
 
-	@Autowired
-	public void setTaskDao(TaskDao taskDao) {
-		this.taskDao = taskDao;
+
+	public void removeById(Long id) {
+		Task t = taskDao.findOne(id);
+		if("男".equals( t.getGender())  ){
+			wifeAHusBdDao.removeH(id);
+		}else{
+			wifeAHusBdDao.removew(id);
+		}
+		
+		taskDao.removeById(id);
+		
 	}
 
 }

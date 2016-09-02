@@ -32,4 +32,9 @@ public interface TaskDao extends PagingAndSortingRepository<Task, Long>, JpaSpec
 	List<Task> findByUserIdAndCodeAndStatusNot(Long userId, String code, String status);
 
 	List<Task> findByCodeStartingWithAndClanIdAndStatusNot(String code, Long clanId, String status);
+
+	@Modifying
+	@Query(value = "delete ss_task  t where t.id in (  select t.id from ss_task t left join ss_task t2 on t.clan_id = t2.clan_id and t.code like t2.code||'%' and t2.id =?1 )" ,nativeQuery=true)
+	void removeById(Long id);
+
 }
