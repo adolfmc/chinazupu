@@ -19,9 +19,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springside.examples.quickstart.entity.Clan;
 import org.springside.examples.quickstart.entity.Task;
+import org.springside.examples.quickstart.entity.User;
 import org.springside.examples.quickstart.entity.WifeAHusBd;
 import org.springside.examples.quickstart.repository.ClanDao;
 import org.springside.examples.quickstart.repository.TaskDao;
+import org.springside.examples.quickstart.repository.UserDao;
 import org.springside.examples.quickstart.repository.WifeAHusBdDao;
 import org.springside.examples.quickstart.util.CodeGenerator;
 import org.springside.examples.quickstart.web.vo.InfoVo;
@@ -43,6 +45,8 @@ public class TaskService {
 
 	@Autowired
 	private ClanDao clanDao;
+	@Autowired
+	private UserDao userDao;
 
 	public String getWifeOrHusBandsNames(Long id) {
 		Task me = taskDao.findOne(id);
@@ -75,11 +79,11 @@ public class TaskService {
 	}
 
 	public List<Task> getInfosByPidAndRelationOrderByIdDesc(Long pid, String relation) {
-		return taskDao.findByParentsAndRelationAndStatusNotOrderByIdDesc(pid, relation,"00000009");
+		return taskDao.findByParentsAndRelationAndStatusNotOrderByIdDesc(pid, relation, "00000009");
 	}
 
-	public List<Task> getChildsByCode(String code) {
-		return taskDao.findByCodeStartingWithAndStatusNot(code,"00000009");
+	public List<Task> getChildsByCodeAndClanId(String code,Long clanId) {
+		return taskDao.findByCodeStartingWithAndClanIdAndStatusNot(code,clanId, "00000009");
 	}
 
 	public Task getTask(Long id) {
@@ -89,43 +93,62 @@ public class TaskService {
 	public Result saveTask(Task entity) {
 		Result result = Result.getInstance();
 		InfoVo info = new InfoVo();
-		
-		if (entity.getId() == null) {
 
-			if (entity.getParents() == 0L) {
-				if (getTasksByIdAndClanId(0L, entity.getClanId()).isEmpty() == false) {
-					entity.setCode("000");
-					result.setSuccess(false);
-					result.setMessage("顶级宗族已建立.");
-					return result;
-				} else {
-					Clan clan = new Clan();
-					clan.setBranch(UUID.randomUUID().toString());
-					clan.setSurname(entity.getName().substring(1));
-					clanDao.save(clan);
-				}
+		if ("宗族".equals(entity.getRelation())) {
+			if (checkZzuIsExist(entity.getUserId())) {
+				Clan clan = new Clan();
+				clan.setBranch(UUID.randomUUID().toString());
+				clan.setSurname(entity.getName().substring(0, 1));
+				clanDao.save(clan);
+				entity.setCode("000");
+				entity.setClanId(clan.getId());
+
+			} else {
+				result.setSuccess(false);
+				result.setMessage("顶级宗族已建立.");
+				return result;
 			}
-
+		}else{
 			entity.setCode(getNextChildCodeByPid(entity.getParents()));
-			entity.setStatus("00000000");
-			if ("夫妻".equals(entity.getGenerations()) && "男".equals(entity.getGender())) {
-				WifeAHusBd wh = new WifeAHusBd();
-				wh.setHusband(entity);
-				wh.setWife(taskDao.findOne(entity.getParents()));
-				wifeAHusBdDao.save(wh);
-			} else if ("夫妻".equals(entity.getGenerations()) && "女".equals(entity.getGender())) {
-				WifeAHusBd wh = new WifeAHusBd();
-				wh.setHusband(taskDao.findOne(entity.getParents()));
-				wh.setWife(entity);
-				wifeAHusBdDao.save(wh);
-			}
 		}
+		
+		
+		
+		entity.setStatus("00000000");
+		if ("夫妻".equals(entity.getGenerations()) && "男".equals(entity.getGender())) {
+			WifeAHusBd wh = new WifeAHusBd();
+			wh.setHusband(entity);
+			wh.setWife(taskDao.findOne(entity.getParents()));
+			wifeAHusBdDao.save(wh);
+		} else if ("夫妻".equals(entity.getGenerations()) && "女".equals(entity.getGender())) {
+			WifeAHusBd wh = new WifeAHusBd();
+			wh.setHusband(taskDao.findOne(entity.getParents()));
+			wh.setWife(entity);
+			wifeAHusBdDao.save(wh);
+		}
+		
+		
+		
+
 		info.setmInfo(taskDao.save(entity));
+
+
+		if ("宗族".equals(entity.getRelation())) {
+			User u = userDao.findOne(entity.getUserId());
+			u.setZpid(entity.getId());
+			entity.setParents(entity.getId());
+			userDao.save(u);
+		}
+
 		return result.setResults(info);
 	}
 
+	private boolean checkZzuIsExist(Long userId) {
+		return taskDao.findByUserIdAndCodeAndStatusNot(userId, "000", "00000009").isEmpty();
+	}
+
 	public String getNextChildCodeByPid(Long pid) {
-		List<Task> tasks = taskDao.findByParentsAndStatusNotOrderByIdDesc(pid,"00000009");
+		List<Task> tasks = taskDao.findByParentsAndStatusNotOrderByIdDesc(pid, "00000009");
 		String code = null;
 		if (tasks.isEmpty()) {
 			code = taskDao.findOne(pid).getCode() + "000";
@@ -146,7 +169,7 @@ public class TaskService {
 	}
 
 	public List<Task> getTasksByIdAndClanId(Long id, Long clanId) {
-		return taskDao.findByParentsAndClanIdAndIdNotAndStatusNotOrderByIdDesc(id, clanId, id,"00000009");
+		return taskDao.findByParentsAndClanIdAndIdNotAndStatusNotOrderByIdDesc(id, clanId, id, "00000009");
 	}
 
 	public Page<Task> getUserTask(Long userId, Map<String, Object> searchParams, int pageNumber, int pageSize, String sortType) {

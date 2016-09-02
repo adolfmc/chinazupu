@@ -102,38 +102,15 @@ public class TaskController {
 		return "redirect:/task/";
 	}
 
-	@ResponseBody
-	@RequestMapping(value = "getTasksById")
-	public Result getTasksByParent(Long id, Long lid, Long clanId) {
-		Result result = Result.getInstance();
-		InfoVo info = new InfoVo();
-		Task me = taskService.getTask(id);
-		List<Task> childs = taskService.getTasksByIdAndClanId(id, me.getClanId());
-		List<Task> childscount = taskService.getChildsByCode(me.getCode());
-		info.setmInfo(me);
-		info.setcInfos(childs);
-
-		List<Task> wifes = taskService.getInfosByPidAndRelationOrderByIdDesc(id, "夫妻");
-		if (id == 0) {
-			info.setPosteritys(String.valueOf(childscount.size() - 1 - wifes.size()));
-		} else {
-			info.setPosteritys(String.valueOf(childscount.size()));
-		}
-
-		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));
-
-		result.setResults(info);
-		return result;
-	}
 
 	@ResponseBody
 	@RequestMapping(value = "getIndexTasks")
-	public Result getIndexTask(Long id, Long clanId) {
+	public Result getIndexTask(Long id) {
 		Result result = Result.getInstance();
 		InfoVo info = new InfoVo();
 		Task me = taskService.getTask(id);
 		List<Task> childs = taskService.getTasksByIdAndClanId(id, me.getClanId());
-		List<Task> childscount = taskService.getChildsByCode(me.getCode());
+		List<Task> childscount = taskService.getChildsByCodeAndClanId(me.getCode(),me.getClanId());
 		info.setmInfo(me);
 		info.setcInfos(childs);
 
@@ -145,7 +122,6 @@ public class TaskController {
 		}
 
 		info.setWifeOrHasbandNames(taskService.getWifeOrHusBandsNames(id));
-
 		result.setResults(info);
 		return result;
 	}
@@ -169,7 +145,7 @@ public class TaskController {
 		InfoVo info = new InfoVo();
 		Task me = taskService.getTask(id);
 		List<Task> childs = taskService.getTasksByIdAndClanId(id, me.getClanId());
-		List<Task> childscount = taskService.getChildsByCode(me.getCode());
+		List<Task> childscount = taskService.getChildsByCodeAndClanId(me.getCode(), me.getClanId());
 		info.setmInfo(me);
 		info.setcInfos(childs);
 
@@ -203,7 +179,7 @@ public class TaskController {
 	@RequestMapping(value = "remove")
 	public Result remove(Long id) {
 		Task me = taskService.getTask(id);
-		List<Task> childscount = taskService.getChildsByCode(me.getCode());
+		List<Task> childscount = taskService.getChildsByCodeAndClanId(me.getCode(), me.getClanId());
 		for (Task task : childscount) {
 			task.setStatus("00000009");
 			taskService.saveTask(task);

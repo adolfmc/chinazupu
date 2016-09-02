@@ -22,9 +22,12 @@ public class CodeGenerator {
 	
 	
 	public static String getNext(String value){
+		
 		String vn=value;
 		if(value.length()>3){
 			vn=value.substring(value.length()-3,value.length());
+		}else{
+			return "000000";
 		}
 		StringBuffer sb=new StringBuffer(3);
 		String v3 = vn.substring(2, 3);

@@ -76,7 +76,7 @@ public class Task extends IdEntity {
 		this.clanId = clanId;
 	}
 
-	@Transient
+	
 	public Long getUserId() {
 		return userId;
 	}
@@ -184,6 +184,7 @@ public class Task extends IdEntity {
 	}
 
 	// JPA 基于USER_ID列的多对一关系定义
+	@Transient
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	public User getUser() {

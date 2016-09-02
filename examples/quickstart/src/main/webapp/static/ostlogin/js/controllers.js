@@ -23,23 +23,20 @@ angular.module('starter.controllers',  ['ngCookies'] )
 		}
 
 		$http.post('http://localhost:8001/quickstart/admin/user/getUserByLoginName',{loginName:user.username}).success(function(dbuser){
-			
-			if(user.username=='admin' && user.password==user.password){
+			console.log('login = '+dbuser);
+			if(user.username==dbuser.loginName && user.password==dbuser.password){
 				console.log('login success...');
-				console.log('login user clanId = '+dbuser.clanId);
-				$cookieStore.put("loginid", dbuser.id);
-				$cookieStore.put("loginPid", "xcccc");
-				$cookieStore.put("clanId", dbuser.clanId);
-				var lid = $cookieStore.get("loginid");
+				var zpid = dbuser.zpid;
+				console.log('login user id = '+dbuser.id+' , zpid = '+dbuser.zpid);
+				$cookieStore.put("userId", dbuser.id);
+				$cookieStore.put("zpid", dbuser.zpid);
 				
 				//judgment infos size
-				$http.post('http://localhost:8001/quickstart/task/getIndexTasks',{id:0,clanId:dbuser.clanId}).success(function(data){
-					console.log('>>>length '+data.results.length );
-					console.log('>>>clanId '+dbuser.clanId);
-					if(data.results.length==0){
+				$http.post('http://localhost:8001/quickstart/task/getIndexTasks',{id:zpid}).success(function(data){
+					if(data.results==null || data.results.length==0){
 						 $location.path('/app/noneinfo');
 					 }else{
-						 $location.path('/app/profiles/'+"0_"+dbuser.clanId);
+						 $location.path('/app/profiles/'+zpid);
 					 }
 				 
 				})
@@ -77,7 +74,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			  $location.path('/app/profiles/'+ "0_0");   
 		  }else{
 			  console.log('createContact function success...'+data);
-			  $location.path('/app/profiles/' +data.results.mInfo.parents+ "_0");
+			  $location.path('/app/profiles/' +data.results.mInfo.parents);
 		  }
 	  });
 	  
@@ -148,23 +145,20 @@ angular.module('starter.controllers',  ['ngCookies'] )
 
 .controller('AddCtrl', function($http ,$scope , $stateParams , $cookieStore) {
 	var id = $stateParams.id;
-	console.log('add ctrl .. id = '+id);
+	var userId = $cookieStore.get("userId");
+	console.log('add ctrl .. id = '+id+'   ,userId = '+userId);
 	
 	//set uid
-	var lid = $cookieStore.get("loginid");
-	var clanId = $cookieStore.get("clanId");
-	console.log("add controller clanId ="+clanId)
-	if(id==0){
+	if(id==-9999){
 	   	  $scope.newTask = {
-	   			  parents:0,
 	   			  gender:'男',
-	   			  clanId:clanId,
 	   			  pName:'宗族',
 	   			  relation: '宗族',
-	   			  userId: lid
+	   			  userId: userId
 	   	  };
 	}else{
 		 $http.post('http://localhost:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
+			 console.log(data);
 			 $scope.relationList = [
 			                        { text: "夫妻", value: "夫妻" },
 			                        { text: "子女", value: "子女" },
@@ -172,9 +166,10 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			                        ]; 
 			 $scope.newTask = {
 					 gender:'男',
-					 parents:data.results.id,
-					 clanId:clanId,
-					 pName:data.results.fullName,
+					 parents:data.results.mInfo.parents,
+					 clanId:data.results.mInfo.clanId,
+					 pName:data.results.mInfo.fullName,
+					 userId:data.results.mInfo.userId,
 					 relation: '子女'
 			 };
 		 });

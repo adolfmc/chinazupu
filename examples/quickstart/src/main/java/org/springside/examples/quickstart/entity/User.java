@@ -29,14 +29,14 @@ public class User extends IdEntity {
 	private String salt;
 	private String roles;
 	private Date registerDate;
-	private Long clanId;
+	private Long zpid;
 
-	public Long getClanId() {
-		return clanId;
+	public Long getZpid() {
+		return zpid;
 	}
 
-	public void setClanId(Long clanId) {
-		this.clanId = clanId;
+	public void setZpid(Long zpid) {
+		this.zpid = zpid;
 	}
 
 	public User() {

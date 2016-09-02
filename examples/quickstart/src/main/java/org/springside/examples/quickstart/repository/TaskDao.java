@@ -20,14 +20,16 @@ public interface TaskDao extends PagingAndSortingRepository<Task, Long>, JpaSpec
 	Page<Task> findByUserId(Long id, Pageable pageRequest);
 
 	@Modifying
-	@Query("delete from Task task where task.user.id=?1")
+	@Query("delete from Task task where task.userId=?1")
 	void deleteByUserId(Long id);
 
 	List<Task> findByParentsAndClanIdAndIdNotAndStatusNotOrderByIdDesc(Long pid, Long clanId,Long parentId,String status);
 
 	List<Task> findByParentsAndStatusNotOrderByIdDesc(Long pid,String status);
 
-	List<Task> findByCodeStartingWithAndStatusNot(String code,String status);
-
 	List<Task> findByParentsAndRelationAndStatusNotOrderByIdDesc(Long pid, String relation,String status);
+
+	List<Task> findByUserIdAndCodeAndStatusNot(Long userId, String code, String status);
+
+	List<Task> findByCodeStartingWithAndClanIdAndStatusNot(String code, Long clanId, String status);
 }
