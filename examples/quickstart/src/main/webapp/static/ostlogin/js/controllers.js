@@ -96,7 +96,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			  if(data.success==true){
 				  // An alert dialog
 				  $cookieStore.put("loginid", data.results.id);
-				  $location.path('/app/profiles/'+ "0_9");   
+				  $location.path('/app/noneinfo');
 			  }else{
 				  $scope.showAlert(data.message);	
 			  }
