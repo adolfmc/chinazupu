@@ -22,7 +22,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			return false;
 		}
 
-		$http.post('http://localhost:8001/quickstart/admin/user/getUserByLoginName',{loginName:user.username}).success(function(dbuser){
+		$http.post('http://140.207.168.154:8001/quickstart/admin/user/getUserByLoginName',{loginName:user.username}).success(function(dbuser){
 			console.log('login = '+dbuser);
 			if(user.username==dbuser.loginName && user.password==dbuser.password){
 				console.log('login success...');
@@ -32,7 +32,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 				$cookieStore.put("zpid", dbuser.zpid);
 				
 				//judgment infos size
-				$http.post('http://localhost:8001/quickstart/task/getIndexTasks',{id:zpid}).success(function(data){
+				$http.post('http://140.207.168.154:8001/quickstart/task/getIndexTasks',{id:zpid}).success(function(data){
 					if(data.results==null || data.results.length==0){
 						 $location.path('/app/noneinfo');
 					 }else{
@@ -65,9 +65,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	  console.log('createContact begain...');
 	  console.log(newTask);
 
-	  $http.post('http://localhost:8001/quickstart/task/create', newTask).success(function(data){
-		  console.log("---------");
-		  console.log(data);
+	  $http.post('http://140.207.168.154:8001/quickstart/task/create', newTask).success(function(data){
 		  if(data.success==false){
 			  // An alert dialog
 			  $scope.showAlert(data.message);	
@@ -90,9 +88,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 			return false;
 		}
 		
-		$http.post('http://localhost:8001/quickstart/admin/user/create', user).success(function(data){
-			  console.log("---------");
-			  console.log(data);
+		$http.post('http://140.207.168.154:8001/quickstart/admin/user/create', user).success(function(data){
 			  if(data.success==true){
 				  // An alert dialog
 				  $cookieStore.put("loginid", data.results.id);
@@ -121,7 +117,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	 
 	 console.info('IdAndClanId >> '+IdAndClanId);
 	 
-	 $http.post('http://localhost:8001/quickstart/task/getIndexTasks',{id:Id,clanId:ClanId}).success(function(data){
+	 $http.post('http://140.207.168.154:8001/quickstart/task/getIndexTasks',{id:Id,clanId:ClanId}).success(function(data){
 		 console.log('ProfilesCtrl funtion success...');
 		 $scope.infos  = data;
      });
@@ -137,7 +133,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	 console.log(id);
 	 console.log(pid);
 	 console.log("id==pid");
-	 $http.post('http://localhost:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
+	 $http.post('http://140.207.168.154:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
 		 console.log('ProfilesCtrl funtion success...');
 		 $scope.info  = data;
 	 });
@@ -157,7 +153,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	   			  userId: userId
 	   	  };
 	}else{
-		 $http.post('http://localhost:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
+		 $http.post('http://140.207.168.154:8001/quickstart/task/getTaskById',{id:id}).success(function(data){
 			 console.log(data);
 			 $scope.relationList = [
 			                        { text: "夫妻", value: "夫妻" },
@@ -181,7 +177,7 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	var id = $stateParams.id;
 	console.log('add ctrl .. id = '+id);
 	
-	 $http.post('http://localhost:8001/quickstart/task/edit',{id:id}).success(function(data){
+	 $http.post('http://140.207.168.154:8001/quickstart/task/edit',{id:id}).success(function(data){
 		 console.log("EditCtrl");
 		 console.log(data);
 		 $scope.newTask =data.results.mInfo;
@@ -193,9 +189,9 @@ angular.module('starter.controllers',  ['ngCookies'] )
 	 var lid = $cookieStore.get("loginid");
 	 var id = $stateParams.id;
 	 
-	 $http.post('http://localhost:8001/quickstart/task/remove',{id:id}).success(function(data){
+	 $http.post('http://140.207.168.154:8001/quickstart/task/remove',{id:id}).success(function(data){
 		 console.log('RemoveCtrl funtion success...');
-		 $http.post('http://localhost:8001/quickstart/task/getIndexTasks',{id:data.results.mInfo.parents,clanId:'0'}).success(function(data){
+		 $http.post('http://140.207.168.154:8001/quickstart/task/getIndexTasks',{id:data.results.mInfo.parents,clanId:'0'}).success(function(data){
 			 console.log('getIndexTasks funtion success...');
 			 $scope.infos  = data;
 	     });
