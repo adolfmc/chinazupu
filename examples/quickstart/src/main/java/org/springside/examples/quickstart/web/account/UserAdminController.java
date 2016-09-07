@@ -5,6 +5,7 @@
  *******************************************************************************/
 package org.springside.examples.quickstart.web.account;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -84,6 +85,7 @@ public class UserAdminController {
 	@ResponseBody
 	@RequestMapping(value = "create")
 	public Result create(User entity){
+		entity.setRegisterDate(new Date());
 		return accountService.save(entity);
 	}
 }
